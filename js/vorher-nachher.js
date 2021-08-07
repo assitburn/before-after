@@ -3,16 +3,99 @@ async function vorher_nachher(){
     if (layercount >0){
         const app = require("photoshop").app;
         const activeDoc = app.activeDocument;   
+        original_document = await document_id();
         if (activeDoc.height > activeDoc.width){
             vorher_nachher_portrait();
-            showToast("Portrait",20000);
+            showToast("Portrait"+original_document,20000);
         }else{
             vorher_nachher_quer();
-            showToast("Quervormat",20000);
+            showToast("Quervormat"+original_document,20000);
         }
     }else{
         showToast("zu wenig Ebenen vorhanden",20000);    
     }
+    
+}
+async function dokument_aktivieren(id){
+   const batchPlay = require("photoshop").action.batchPlay;
+   const result = await batchPlay(
+   [
+      {
+         "_obj": "select",
+         "_target": [
+            {
+               "_ref": "document",
+               "_id": id
+            }
+         ],
+         "documentID": id,
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+     
+   ],{
+      "synchronousExecution": false,
+      "modalBehavior": "fail"
+   });
+
+}
+async function renamelayer(name){
+   const batchPlay = require("photoshop").action.batchPlay;
+   const result = await batchPlay(
+   [
+      {
+         "_obj": "set",
+         "_target": [
+            {
+               "_ref": "layer",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "to": {
+            "_obj": "layer",
+            "name": name
+         },
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+   ],{
+      "synchronousExecution": false,
+      "modalBehavior": "fail"
+   });
+
+}
+
+async function document_id(){
+   const batchPlay = require("photoshop").action.batchPlay;
+   const result = await batchPlay(
+   [
+      {
+         "_obj": "get",
+         "_target": [
+            {
+               "_property": "documentID"
+            },
+            {
+               "_ref": "document",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+   ],{
+      "synchronousExecution": false,
+      "modalBehavior": "fail"
+   });
+   const pinned = result[0].documentID;
+   return pinned;
 }
 async function background_check(){
     const batchPlay = require("photoshop").action.batchPlay;
@@ -43,7 +126,8 @@ async function background_check(){
     }
 }
 async function vorher_nachher_quer(){
-    await ebenenauswahlaufheben();
+   original_document = await document_id(); 
+   await ebenenauswahlaufheben();
     await alle_ebenen_auswaehlen();
     await farbreset();
     await check_ebenen_nach_oben_zusammenfassen();
@@ -60,9 +144,16 @@ async function vorher_nachher_quer(){
     await ebenenauswahlaufheben();
     await select_layer_by_index(0);
     await nach_oben_schieben();
-    
     await zusammenfuehren_quer();
     await menuCommand(1192);
+    neues_document = await document_id();
+    await dokument_aktivieren(original_document);
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await delete_layer();
+    await dokument_aktivieren(neues_document);
+    await renamelayer(label_layerneu);
+    return;
 }
 async function hintergrund_entfernen(){
     await ebenenauswahlaufheben();
@@ -102,6 +193,7 @@ async function hintergrund_entfernen(){
     
 }
 async function vorher_nachher_portrait(){
+   original_document = await document_id(); 
     await ebenenauswahlaufheben();
     await alle_ebenen_auswaehlen();
     await farbreset();
@@ -120,9 +212,38 @@ async function vorher_nachher_portrait(){
     await select_layer_by_index(0);
     await nach_rechts_schieben();
     await menuCommand(1192);
+    neues_document = await document_id();
+    await dokument_aktivieren(original_document);
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await delete_layer();
+    await dokument_aktivieren(neues_document);
+    await renamelayer(label_layerneu);
     return;
 }
-
+async function delete_layer(){
+   const batchPlay = require("photoshop").action.batchPlay;
+   const result = await batchPlay(
+   [
+      {
+         "_obj": "delete",
+         "_target": [
+            {
+               "_ref": "layer",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+   ],{
+      "synchronousExecution": false,
+      "modalBehavior": "fail"
+   });
+}
 async function zusammenfuehren_quer(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(

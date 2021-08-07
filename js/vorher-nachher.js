@@ -6,16 +6,208 @@ async function vorher_nachher(){
         original_document = await document_id();
         if (activeDoc.height > activeDoc.width){
             vorher_nachher_portrait();
-            showToast("Portrait",20000);
+            showToast("Portrait",10000);
         }else{
             vorher_nachher_quer();
-            showToast("Quervormat",20000);
+            showToast("Quervormat",10000);
         }
     }else{
         showToast("zu wenig Ebenen vorhanden",20000);    
     }
-    
 }
+
+async function vorher_nachher_quer(){
+   original_document = await document_id(); 
+   await ebenenauswahlaufheben();
+    await alle_ebenen_auswaehlen();
+    await farbreset();
+    await check_ebenen_nach_oben_zusammenfassen();
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await select_layer_by_index(await layeranzahl());
+    await in_neue_datei_kopieren();
+    await background_check();
+    if (hintergrund_vorhanden == "ja"){
+        await hintergrund_entfernen();
+    }
+    await bildrahmen_unten(10);
+    await arbeitsflaeche_erweitern_oben();
+    await ebenenauswahlaufheben();
+    if(document.getElementById("switch_kopie").checked){
+      await select_layer_by_index(1); 
+   }else{
+      await select_layer_by_index(0);
+   }
+    await nach_oben_schieben();
+    await select_layer_by_index(0);
+    await zusammenfuehren_quer();
+    await menuCommand(1192);
+    neues_document = await document_id();
+    await dokument_aktivieren(original_document);
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await delete_layer();
+    await dokument_aktivieren(neues_document);
+    await renamelayer(label_layerneu);
+    return;
+}
+
+async function vorher_nachher_portrait(){
+   original_document = await document_id(); 
+    await ebenenauswahlaufheben();
+    await alle_ebenen_auswaehlen();
+    await farbreset();
+    await check_ebenen_nach_oben_zusammenfassen();
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await select_layer_by_index(await layeranzahl());
+    await in_neue_datei_kopieren();
+    await background_check();
+    if (hintergrund_vorhanden == "ja"){
+        await hintergrund_entfernen();
+    }
+    await bildrahmen_links(10);
+    await arbeitsflaeche_erweitern();
+    await ebenenauswahlaufheben();
+    if(document.getElementById("switch_kopie").checked){
+      await select_layer_by_index(1); 
+   }else{
+      await select_layer_by_index(0);
+   }
+    //await select_layer_by_index(0);
+    await nach_rechts_schieben();
+    await menuCommand(1192);
+    neues_document = await document_id();
+    await dokument_aktivieren(original_document);
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await delete_layer();
+    await dokument_aktivieren(neues_document);
+    await hintergrund_portrait();
+    await ebenenauswahlaufheben();
+    await select_layer_by_index(0);
+    await renamelayer(label_layerneu);
+    return;
+}
+
+
+async function hintergrund_portrait(){
+   const batchPlay = require("photoshop").action.batchPlay;
+   const result = await batchPlay(
+   [
+      {
+         "_obj": "reset",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "colors"
+            }
+         ],
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
+      {
+         "_obj": "exchange",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "colors"
+            }
+         ],
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
+      {
+         "_obj": "make",
+         "_target": [
+            {
+               "_ref": "layer"
+            }
+         ],
+         "layerID": 4,
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
+      {
+         "_obj": "fill",
+         "from": {
+            "_obj": "paint",
+            "horizontal": {
+               "_unit": "pixelsUnit",
+               "_value": 1887
+            },
+            "vertical": {
+               "_unit": "pixelsUnit",
+               "_value": 808
+            }
+         },
+         "tolerance": 32,
+         "antiAlias": true,
+         "using": {
+            "_enum": "fillContents",
+            "_value": "foregroundColor"
+         },
+         "mode": {
+            "_enum": "blendMode",
+            "_value": "dissolve"
+         },
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
+      {
+         "_obj": "move",
+         "_target": [
+            {
+               "_ref": "layer",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "to": {
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "back"
+         },
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }, {
+         "_obj": "selectAllLayers",
+         "_target": [
+            {
+               "_ref": "layer",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
+      {
+         "_obj": "mergeLayersNew",
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+   
+   ],{
+      "synchronousExecution": false,
+      "modalBehavior": "fail"
+   });
+}
+
 async function dokument_aktivieren(id){
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
@@ -41,6 +233,7 @@ async function dokument_aktivieren(id){
    });
 
 }
+
 async function renamelayer(name){
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
@@ -97,6 +290,7 @@ async function document_id(){
    const pinned = result[0].documentID;
    return pinned;
 }
+
 async function background_check(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -125,36 +319,7 @@ async function background_check(){
         hintergrund_vorhanden="nein";
     }
 }
-async function vorher_nachher_quer(){
-   original_document = await document_id(); 
-   await ebenenauswahlaufheben();
-    await alle_ebenen_auswaehlen();
-    await farbreset();
-    await check_ebenen_nach_oben_zusammenfassen();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await select_layer_by_index(await layeranzahl());
-    await in_neue_datei_kopieren();
-    await background_check();
-    if (hintergrund_vorhanden == "ja"){
-        await hintergrund_entfernen();
-    }
-    await bildrahmen_unten(10);
-    await arbeitsflaeche_erweitern_oben();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await nach_oben_schieben();
-    await zusammenfuehren_quer();
-    await menuCommand(1192);
-    neues_document = await document_id();
-    await dokument_aktivieren(original_document);
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await delete_layer();
-    await dokument_aktivieren(neues_document);
-    await renamelayer(label_layerneu);
-    return;
-}
+
 async function hintergrund_entfernen(){
     await ebenenauswahlaufheben();
     await select_layer_by_index(await layeranzahl());
@@ -192,35 +357,7 @@ async function hintergrund_entfernen(){
     });
     
 }
-async function vorher_nachher_portrait(){
-   original_document = await document_id(); 
-    await ebenenauswahlaufheben();
-    await alle_ebenen_auswaehlen();
-    await farbreset();
-    await check_ebenen_nach_oben_zusammenfassen();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await select_layer_by_index(await layeranzahl());
-    await in_neue_datei_kopieren();
-    await background_check();
-    if (hintergrund_vorhanden == "ja"){
-        await hintergrund_entfernen();
-    }
-    await bildrahmen_links(10);
-    await arbeitsflaeche_erweitern();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await nach_rechts_schieben();
-    await menuCommand(1192);
-    neues_document = await document_id();
-    await dokument_aktivieren(original_document);
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await delete_layer();
-    await dokument_aktivieren(neues_document);
-    await renamelayer(label_layerneu);
-    return;
-}
+
 async function delete_layer(){
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
@@ -244,6 +381,7 @@ async function delete_layer(){
       "modalBehavior": "fail"
    });
 }
+
 async function zusammenfuehren_quer(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -370,6 +508,25 @@ async function zusammenfuehren_quer(){
              "dialogOptions": "dontDisplay"
           }
        },
+       {
+         "_obj": "move",
+         "_target": [
+            {
+               "_ref": "layer",
+               "_enum": "ordinal",
+               "_value": "targetEnum"
+            }
+         ],
+         "to": {
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "back"
+         },
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
        {
           "_obj": "selectAllLayers",
           "_target": [
@@ -562,154 +719,20 @@ async function nach_rechts_schieben(){
         "_options": {
            "dialogOptions": "dontDisplay"
         }
-     },
-     {
-        "_obj": "make",
-        "_target": [
-           {
-              "_ref": "layer"
-           }
-        ],
-        "layerID": 4,
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "select",
-        "_target": [
-           {
-              "_ref": "bucketTool"
-           }
-        ],
-        "dontRecord": true,
-        "forceNotify": true,
-        "_isCommand": false,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "fill",
-        "from": {
-           "_obj": "paint",
-           "horizontal": {
-              "_unit": "pixelsUnit",
-              "_value": 1869
-           },
-           "vertical": {
-              "_unit": "pixelsUnit",
-              "_value": 917
-           }
-        },
-        "tolerance": 32,
-        "antiAlias": true,
-        "using": {
-           "_enum": "fillContents",
-           "_value": "foregroundColor"
-        },
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "exchange",
-        "_target": [
-           {
-              "_ref": "color",
-              "_property": "colors"
-           }
-        ],
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "fill",
-        "from": {
-           "_obj": "paint",
-           "horizontal": {
-              "_unit": "pixelsUnit",
-              "_value": 1866
-           },
-           "vertical": {
-              "_unit": "pixelsUnit",
-              "_value": 699
-           }
-        },
-        "tolerance": 32,
-        "antiAlias": true,
-        "using": {
-           "_enum": "fillContents",
-           "_value": "foregroundColor"
-        },
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "move",
-        "_target": [
-           {
-              "_ref": "layer",
-              "_enum": "ordinal",
-              "_value": "targetEnum"
-           }
-        ],
-        "to": {
-           "_ref": "layer",
-           "_enum": "ordinal",
-           "_value": "back"
-        },
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "selectAllLayers",
-        "_target": [
-           {
-              "_ref": "layer",
-              "_enum": "ordinal",
-              "_value": "targetEnum"
-           }
-        ],
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "mergeLayersNew",
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
-     {
-        "_obj": "set",
-        "_target": [
-           {
-              "_ref": "layer",
-              "_enum": "ordinal",
-              "_value": "targetEnum"
-           }
-        ],
-        "to": {
-           "_obj": "layer",
-           "name": "Vorher-Nachher"
-        },
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     }
-  
+     }, {
+      "_obj": "selectAllLayers",
+      "_target": [
+         {
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+         }
+      ],
+      "_isCommand": true,
+      "_options": {
+         "dialogOptions": "dontDisplay"
+      }
+   }
   
     ],{
     "synchronousExecution": false,

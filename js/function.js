@@ -191,3 +191,19 @@ async function alle_ebenen_auswaehlen(){
     });
 
 }
+
+
+async function switch_kopie_check(){
+    
+    if(document.getElementById("switch_kopie").checked){
+        document.getElementById("switch_kopie").innerHTML="Kopie links / unten";
+        
+        showToast("Kopie wird links / unten angezeigt",5000);
+    }else{
+        document.getElementById("switch_kopie").innerHTML="Kopie rechts / oben";
+        showToast("Kopie wird rechts / oben angezeigt",5000);
+    }
+    
+}
+
+document.getElementById("switch_kopie").addEventListener("click",switch_kopie_check);

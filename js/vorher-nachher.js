@@ -1,5 +1,5 @@
 async function vorher_nachher(){
-    layeranzahl();
+    await layeranzahl();
     if (layercount >0){
         const app = require("photoshop").app;
         const activeDoc = app.activeDocument;   
@@ -43,8 +43,8 @@ async function background_check(){
     }
 }
 async function vorher_nachher_quer(){
-    ebenenauswahlaufheben();
-    alle_ebenen_auswaehlen();
+    await ebenenauswahlaufheben();
+    await alle_ebenen_auswaehlen();
     await farbreset();
     await check_ebenen_nach_oben_zusammenfassen();
     await ebenenauswahlaufheben();
@@ -56,11 +56,17 @@ async function vorher_nachher_quer(){
         await hintergrund_entfernen();
     }
     await bildrahmen_unten(10);
+    console.log ("bildrahmen_unten");
     await arbeitsflaeche_erweitern_oben();
-    ebenenauswahlaufheben();
+    console.log ("arbeitsfläche erweitern oben");
+    await ebenenauswahlaufheben();
+    console.log ("ebenenauswahlaufheben");
     await select_layer_by_index(0);
+    console.log ("layer auswahl id 0");
     await nach_oben_schieben();
-    await zusammenfuehren();
+    console.log ("nach oben schieben");
+    
+    await zusammenfuehren_quer();
     await menuCommand(1192);
 }
 async function hintergrund_entfernen(){
@@ -122,175 +128,27 @@ async function vorher_nachher_portrait(){
     return;
 }
 
-async function zusammenfuehren(){
+async function zusammenfuehren_quer(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
-    [
-    {
-        "_obj": "make",
-        "_target": [
-            {
-                "_ref": "layer"
-            }
-        ],
-        "layerID": 4,
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "exchange",
-        "_target": [
-            {
-                "_ref": "color",
-                "_property": "colors"
-            }
-        ],
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "select",
-        "_target": [
-            {
-                "_ref": "bucketTool"
-            }
-        ],
-        "dontRecord": true,
-        "forceNotify": true,
-        "_isCommand": false,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "fill",
-        "from": {
-            "_obj": "paint",
-            "horizontal": {
-                "_unit": "pixelsUnit",
-                "_value": 1666
-            },
-            "vertical": {
-                "_unit": "pixelsUnit",
-                "_value": 1319
-            }
-        },
-        "tolerance": 32,
-        "antiAlias": true,
-        "using": {
-            "_enum": "fillContents",
-            "_value": "foregroundColor"
-        },
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "move",
-        "_target": [
-            {
-                "_ref": "layer",
-                "_enum": "ordinal",
-                "_value": "targetEnum"
-            }
-        ],
-        "to": {
-            "_ref": "layer",
-            "_enum": "ordinal",
-            "_value": "back"
-        },
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "selectAllLayers",
-        "_target": [
-            {
-                "_ref": "layer",
-                "_enum": "ordinal",
-                "_value": "targetEnum"
-            }
-        ],
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
-        "_obj": "mergeLayersNew",
-        "_isCommand": true,
-        "_options": {
-            "dialogOptions": "dontDisplay"
-        }
-    },
-    {
+    [{
         "_obj": "set",
         "_target": [
-            {
-                "_ref": "layer",
-                "_enum": "ordinal",
-                "_value": "targetEnum"
-            }
+           {
+              "_ref": "channel",
+              "_property": "selection"
+           }
         ],
         "to": {
-            "_obj": "layer",
-            "name": "Vorher-Nachher"
+           "_enum": "ordinal",
+           "_value": "allEnum"
         },
         "_isCommand": true,
         "_options": {
-            "dialogOptions": "dontDisplay"
+           "dialogOptions": "dontDisplay"
         }
-    }
-    ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
-    });
-}
-
-async function nach_oben_schieben(){
-    const batchPlay = require("photoshop").action.batchPlay;
-    const result = await batchPlay(
-    [
-       {
-          "_obj": "select",
-          "_target": [
-             {
-                "_ref": "moveTool"
-             }
-          ],
-          "dontRecord": true,
-          "forceNotify": true,
-          "_isCommand": false,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       },
-       {
-          "_obj": "align",
-          "_target": [
-             {
-                "_ref": "layer",
-                "_enum": "ordinal",
-                "_value": "targetEnum"
-             }
-          ],
-          "using": {
-             "_enum": "alignDistributeSelector",
-             "_value": "ADSTops"
-          },
-          "alignToCanvas": true,
-          "_isCommand": true,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       },
+     }
+,  
        {
           "_obj": "canvasSize",
           "relative": true,
@@ -314,12 +172,162 @@ async function nach_oben_schieben(){
           "_options": {
              "dialogOptions": "dontDisplay"
           }
+       },
+       {
+          "_obj": "make",
+          "_target": [
+             {
+                "_ref": "layer"
+             }
+          ],
+          "layerID": 5,
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "reset",
+          "_target": [
+             {
+                "_ref": "color",
+                "_property": "colors"
+             }
+          ],
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "exchange",
+          "_target": [
+             {
+                "_ref": "color",
+                "_property": "colors"
+             }
+          ],
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "fill",
+          "from": {
+             "_obj": "paint",
+             "horizontal": {
+                "_unit": "pixelsUnit",
+                "_value": 1114
+             },
+             "vertical": {
+                "_unit": "pixelsUnit",
+                "_value": 1347
+             }
+          },
+          "tolerance": 32,
+          "antiAlias": true,
+          "using": {
+             "_enum": "fillContents",
+             "_value": "foregroundColor"
+          },
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "move",
+          "_target": [
+             {
+                "_ref": "layer",
+                "_enum": "ordinal",
+                "_value": "targetEnum"
+             }
+          ],
+          "to": {
+             "_ref": "layer",
+             "_enum": "ordinal",
+             "_value": "back"
+          },
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "selectAllLayers",
+          "_target": [
+             {
+                "_ref": "layer",
+                "_enum": "ordinal",
+                "_value": "targetEnum"
+             }
+          ],
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
+       },
+       {
+          "_obj": "mergeLayersNew",
+          "_isCommand": true,
+          "_options": {
+             "dialogOptions": "dontDisplay"
+          }
        }
     ],{
        "synchronousExecution": false,
        "modalBehavior": "fail"
     });
     
+}
+
+async function nach_oben_schieben(){
+    const batchPlay = require("photoshop").action.batchPlay;
+    const result = await batchPlay(
+    [{
+        "_obj": "set",
+        "_target": [
+           {
+              "_ref": "channel",
+              "_property": "selection"
+           }
+        ],
+        "to": {
+           "_enum": "ordinal",
+           "_value": "allEnum"
+        },
+        "_isCommand": true,
+        "_options": {
+           "dialogOptions": "dontDisplay"
+        }
+     }
+    ,{
+        "_obj": "align",
+        "_target": [
+            {
+                "_ref": "layer",
+                "_enum": "ordinal",
+                "_value": "targetEnum"
+            }
+        ],
+        "using": {
+            "_enum": "alignDistributeSelector",
+            "_value": "ADSTops"
+        },
+        "alignToCanvas": true,
+        "_isCommand": true,
+        "_options": {
+            "dialogOptions": "dontDisplay"
+        }
+    }
+    ],{
+    "synchronousExecution": false,
+    "modalBehavior": "fail"
+    });
+
+       
 }
 
 async function arbeitsflaeche_erweitern_oben(){
@@ -376,7 +384,24 @@ async function bildrahmen_unten(wert){
 async function nach_rechts_schieben(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
-    [
+    [{
+        "_obj": "set",
+        "_target": [
+           {
+              "_ref": "channel",
+              "_property": "selection"
+           }
+        ],
+        "to": {
+           "_enum": "ordinal",
+           "_value": "allEnum"
+        },
+        "_isCommand": true,
+        "_options": {
+           "dialogOptions": "dontDisplay"
+        }
+     }
+,  
     {
         "_obj": "align",
         "_target": [

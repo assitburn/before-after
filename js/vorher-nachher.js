@@ -56,15 +56,10 @@ async function vorher_nachher_quer(){
         await hintergrund_entfernen();
     }
     await bildrahmen_unten(10);
-    console.log ("bildrahmen_unten");
     await arbeitsflaeche_erweitern_oben();
-    console.log ("arbeitsfläche erweitern oben");
     await ebenenauswahlaufheben();
-    console.log ("ebenenauswahlaufheben");
     await select_layer_by_index(0);
-    console.log ("layer auswahl id 0");
     await nach_oben_schieben();
-    console.log ("nach oben schieben");
     
     await zusammenfuehren_quer();
     await menuCommand(1192);
@@ -107,8 +102,8 @@ async function hintergrund_entfernen(){
     
 }
 async function vorher_nachher_portrait(){
-    ebenenauswahlaufheben();
-    alle_ebenen_auswaehlen();
+    await ebenenauswahlaufheben();
+    await alle_ebenen_auswaehlen();
     await farbreset();
     await check_ebenen_nach_oben_zusammenfassen();
     await ebenenauswahlaufheben();
@@ -121,7 +116,7 @@ async function vorher_nachher_portrait(){
     }
     await bildrahmen_links(10);
     await arbeitsflaeche_erweitern();
-    ebenenauswahlaufheben();
+    await ebenenauswahlaufheben();
     await select_layer_by_index(0);
     await nach_rechts_schieben();
     await menuCommand(1192);
@@ -147,8 +142,7 @@ async function zusammenfuehren_quer(){
         "_options": {
            "dialogOptions": "dontDisplay"
         }
-     }
-,  
+     },
        {
           "_obj": "canvasSize",
           "relative": true,
@@ -326,8 +320,6 @@ async function nach_oben_schieben(){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
-
-       
 }
 
 async function arbeitsflaeche_erweitern_oben(){
@@ -353,7 +345,6 @@ async function arbeitsflaeche_erweitern_oben(){
        "synchronousExecution": false,
        "modalBehavior": "fail"
     });
-    
 }
 
 async function bildrahmen_unten(wert){
@@ -379,8 +370,8 @@ async function bildrahmen_unten(wert){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
-
 }
+
 async function nach_rechts_schieben(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -400,8 +391,7 @@ async function nach_rechts_schieben(){
         "_options": {
            "dialogOptions": "dontDisplay"
         }
-     }
-,  
+     },
     {
         "_obj": "align",
         "_target": [

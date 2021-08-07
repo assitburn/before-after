@@ -6,10 +6,10 @@ async function vorher_nachher(){
         original_document = await document_id();
         if (activeDoc.height > activeDoc.width){
             vorher_nachher_portrait();
-            showToast("Portrait"+original_document,20000);
+            showToast("Portrait",20000);
         }else{
             vorher_nachher_quer();
-            showToast("Quervormat"+original_document,20000);
+            showToast("Quervormat",20000);
         }
     }else{
         showToast("zu wenig Ebenen vorhanden",20000);    

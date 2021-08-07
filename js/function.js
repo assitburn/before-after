@@ -191,7 +191,94 @@ async function alle_ebenen_auswaehlen(){
     });
 
 }
+async function check_start(info){
+        
+    //Check ob Dokument geöffnet
+    const app = require('photoshop').app;
+    var currentDocument = app.activeDocument;
+    if (currentDocument == null){ 
+        console.log(label_kein_doc_geladen);
+        showToast_red(label_kein_doc_geladen);
+        
+        return false;
+    }
 
+    //Check 32 Bit
+    const batchPlay = require("photoshop").action.batchPlay;
+    const result = await batchPlay(
+        [{
+          "_obj": "get",
+          "_target": [{
+              "_property": "depth"
+            },
+            {
+              "_ref": "document",
+              "_enum": "ordinal",
+              "_value": "targetEnum"
+            }
+          ],
+          "_options": {
+            "dialogOptions": "dontDisplay"
+          }
+        }], {
+          "synchronousExecution": false,
+          "modalBehavior": "fail"
+        });
+    var documentDepth = result[0].depth;
+    
+    if (documentDepth == '32'){
+        console.log(label_32bitohneunterstützung);
+        showToast_red(label_32bitohneunterstützung);
+        return false;
+    }
+
+    //check RGBColor
+    const result2 = await batchPlay(
+    [
+        {
+            "_obj": "get",
+            "_target": [
+                {
+                "_property": "mode"
+                },
+                {
+                "_ref": "document",
+                "_enum": "ordinal",
+                "_value": "targetEnum"
+                }
+            ],
+            "_options": {
+                "dialogOptions": "dontDisplay"
+            }
+        }
+    ],{
+        "synchronousExecution": false,
+        "modalBehavior": "fail"
+    });
+    let colormod = result2[0].mode._value;
+    if (colormod!="RGBColor"){
+        console.log(label_nur_rgb_farbraum);
+        showToast_red(label_nur_rgb_farbraum);
+       
+        return false;
+    }
+}
+const toast_red_breit = document.querySelector(".toast_red_breit");
+toast_red_breit.onclick = () => {
+    toast_red_breit.classList.remove("visible");
+};
+
+function showToast_red(msg) {
+    toast_red_breit.textContent = msg;
+    toast_red_breit.classList.add("visible");
+    setTimeout(() => {
+        toast_red_breit.classList.remove("visible");
+    }, 10000);
+}
+
+function removetoast_red(){
+    toast_red_breit.classList.remove("visible");
+}
 
 async function switch_kopie_check(){
     

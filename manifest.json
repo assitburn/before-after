@@ -1,0 +1,88 @@
+{
+  "id": "vorher.nachher.theme",
+  "name": "Vorher-Nachher",
+  "version": "1.0.2",
+  "main": "index.html",
+  "host": [
+    {
+      "app": "PS",
+      "minVersion": "22.0.0",
+        "data": {
+          "apiVersion": 1
+        }
+    }
+  ],
+  "manifestVersion": 4,
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "vanilla",
+      "minimumSize": {
+        "width": 300,
+        "height": 200
+      },
+      "maximumSize": {
+        "width": 300,
+        "height": 200
+      },
+      "preferredDockedSize": {
+        "width": 300,
+        "height": 200
+      },
+      "preferredFloatingSize": {
+        "width": 300,
+        "height": 200
+      },
+      
+      "icons": [
+        {
+      "width": 23,
+      "height": 23,
+      "path": "icons/dark.png",
+      "scale": [
+        1,
+        2
+      ],
+      "theme": [
+        "darkest",
+        "dark",
+        "medium"
+     ]
+    },
+    {
+      "width": 23,
+      "height": 23,
+      "path": "icons/light.png",
+      "scale": [
+        1,
+        2
+      ],
+      "theme": [
+        "lightest",
+        "light"          
+      ]
+        }
+      ]
+    }
+  ],
+  "icons": [{
+    "width": 48,
+    "height": 48,
+    "path": "icons/plugin.png",
+    "scale": [1, 2],
+    "theme": ["darkest", "dark", "medium"],
+    "species": [ "pluginList" ]
+  }, {
+    "width": 48,
+    "height": 48,
+    "path": "icons/plugin.png",
+    "scale": [1, 2],
+    "theme": ["lightest", "light"],
+    "species": [ "pluginList" ]
+  },
+  { "width": 23, "height": 23, "path": "icons/plugin.png", "scale": [ 1, 2 ], "theme": [ "dark", "darkest" ], "species": [ "generic" ] },
+
+  { "width": 23, "height": 23, "path": "icons/plugin.png", "scale": [ 1, 2 ], "theme": [ "lightest", "light" ], "species": [ "generic" ] }
+]
+
+}

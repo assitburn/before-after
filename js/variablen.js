@@ -12,3 +12,5 @@ var neues_document=0;
 var label_32bitohneunterstützung="keine 32 Bit Unterstützung";
 var label_kein_doc_geladen="kein Dokument geladen";
 var label_nur_rgb_farbraum="nur RGB-Farbraum wird unterstützt";
+var rand = 10;
+var rand2 = rand * 2;

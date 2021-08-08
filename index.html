@@ -12,9 +12,14 @@
 <body>
   <div class="wrapper">
     <div class="sp-tab-page visible" id="sp-spectrum-start-tab-page">
+      <div class="group"><sp-label>Rand</sp-label>
+        <sp-action-button size="s" id="btn_rand_reset">Reset</sp-action-button>
+        <sp-slider id="FQ-rand-slider" min="1" max="100" step="1" value="10"><sp-label ID="radius" slot="label">Randstärke in Pixel</sp-label></sp-slider>
+      </div>
       <div class="group"><sp-label>Vorher-Nachher</sp-label>
         <sp-heading><p> <sp-button variant="primary" id="btn_vorher_nachher">Vorher-Nachher</sp-button></p></sp-heading>
-        <sp-heading><sp-switch id="switch_kopie" label="Kopie rechts / oben">Kopie rechts / oben</sp-switch></sp-heading>
+        <sp-heading><sp-switch id="switch_kopie" label="Kopie rechts / oben">Kopie rechts / oben</sp-switch></sp-heading><br>
+        
       </div>
     </div>
   </div>

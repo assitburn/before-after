@@ -1,4 +1,7 @@
 async function vorher_nachher(){
+   rand = document.getElementById("FQ-rand-slider").value;
+   rand2 = rand * 2;
+   speichern("rand", rand);
    let testmodus = await check_start();
    if (testmodus == false) {
       return;
@@ -34,7 +37,7 @@ async function vorher_nachher_quer(){
     if (hintergrund_vorhanden == "ja"){
         await hintergrund_entfernen();
     }
-    await bildrahmen_unten(10);
+    await bildrahmen_unten(rand);
     await arbeitsflaeche_erweitern_oben();
     await ebenenauswahlaufheben();
     if(document.getElementById("switch_kopie").checked){
@@ -70,7 +73,7 @@ async function vorher_nachher_portrait(){
     if (hintergrund_vorhanden == "ja"){
         await hintergrund_entfernen();
     }
-    await bildrahmen_links(10);
+    await bildrahmen_links(rand);
     await arbeitsflaeche_erweitern();
     await ebenenauswahlaufheben();
     if(document.getElementById("switch_kopie").checked){
@@ -411,11 +414,11 @@ async function zusammenfuehren_quer(){
           "relative": true,
           "width": {
              "_unit": "pixelsUnit",
-             "_value": 20
+             "_value": rand2
           },
           "height": {
              "_unit": "pixelsUnit",
-             "_value": 10
+             "_value": rand
           },
           "horizontal": {
              "_enum": "horizontalLocation",
@@ -697,7 +700,7 @@ async function nach_rechts_schieben(){
         "relative": true,
         "width": {
            "_unit": "pixelsUnit",
-           "_value": 10
+           "_value": rand
         },
         "horizontal": {
            "_enum": "horizontalLocation",
@@ -713,7 +716,7 @@ async function nach_rechts_schieben(){
         "relative": true,
         "height": {
            "_unit": "pixelsUnit",
-           "_value": 20
+           "_value": rand2
         },
         "vertical": {
            "_enum": "verticalLocation",

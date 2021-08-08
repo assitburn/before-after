@@ -281,7 +281,6 @@ function removetoast_red(){
 }
 
 async function switch_kopie_check(){
-    
     if(document.getElementById("switch_kopie").checked){
         document.getElementById("switch_kopie").innerHTML="Kopie links / unten";
         
@@ -289,13 +288,25 @@ async function switch_kopie_check(){
     }else{
         document.getElementById("switch_kopie").innerHTML="Kopie rechts / oben";
         showToast("Kopie wird rechts / oben angezeigt",5000);
-    }
-    
+    }   
 }
-async function version(){
+function laden(key,default_wert) {
+    const savedPreference = localStorage.getItem(key);
+    return (savedPreference === undefined) ? default_wert : savedPreference;
+}
+
+function speichern(key,wert) {
+    localStorage.setItem(key, wert.toString());
+}
+async function autostart(){
     const version_nummer = require("uxp").versions.plugin;
     const copyright_text= "&copy; 2021 Carsten Gerdes Version "+version_nummer;
     document.getElementById("copyright").innerHTML = copyright_text;    
+    document.getElementById("FQ-rand-slider").value = laden("rand","15");
 }
-version();
+autostart();
+async function rand_reset(){
+    document.getElementById("FQ-rand-slider").value=10;
+}
 document.getElementById("switch_kopie").addEventListener("click",switch_kopie_check);
+document.getElementById("btn_rand_reset").addEventListener("click",rand_reset);

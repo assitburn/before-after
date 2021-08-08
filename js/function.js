@@ -292,5 +292,10 @@ async function switch_kopie_check(){
     }
     
 }
-
+async function version(){
+    const version_nummer = require("uxp").versions.plugin;
+    const copyright_text= "&copy; 2021 Carsten Gerdes Version "+version_nummer;
+    document.getElementById("copyright").innerHTML = copyright_text;    
+}
+version();
 document.getElementById("switch_kopie").addEventListener("click",switch_kopie_check);

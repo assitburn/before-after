@@ -294,7 +294,10 @@ function laden(key,default_wert) {
     const savedPreference = localStorage.getItem(key);
     return (savedPreference === undefined) ? default_wert : savedPreference;
 }
-
+function laden_zahl(key, default_wert) {
+    const savedPreference = localStorage.getItem(key);
+    return (savedPreference === undefined) ? number(default_wert) : number(savedPreference);
+}
 function speichern(key,wert) {
     localStorage.setItem(key, wert.toString());
 }
@@ -303,10 +306,60 @@ async function autostart(){
     const copyright_text= "&copy; 2021 Carsten Gerdes Version "+version_nummer;
     document.getElementById("copyright").innerHTML = copyright_text;    
     document.getElementById("FQ-rand-slider").value = laden("rand","15");
+    hex_farbe = laden("hex_farbe","#ffffff");
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
 }
 autostart();
 async function rand_reset(){
     document.getElementById("FQ-rand-slider").value=10;
 }
+
+async function colorpick(){
+    //const color_red = 0;
+    //speichern("red",0);
+    //const color_red = laden_zahl("red",0).toFixed(0);
+    //const color_grain = laden_zahl("red",0).toFixed(0);
+    //const color_blue = laden_zahl("red",0).toFixed(0);
+       
+    const color_red = parseInt(await laden("red","0"));
+    const color_grain = parseInt(await laden("grain","0"));
+    const color_blue = parseInt(await laden("blue","0"));
+    const openPicker = {
+        _target: { _ref: "application" },
+        _obj: "showColorPicker",
+        context: "Randfarbe auswählen",
+        color: {
+          _obj: 'RGBColor',
+          red: color_red,
+          green: color_grain,
+          blue: color_blue,
+        },
+      };
+      const res = await require("photoshop").action.batchPlay([openPicker], {});
+
+      const rgbFloat = res[0].color;
+      speichern("red",rgbFloat.red.toFixed(0));
+      speichern("blue",rgbFloat.blue.toFixed(0));
+      speichern("grain",rgbFloat.grain.toFixed(0));
+      red = parseInt(await laden("red","0"));
+      blue = parseInt(await laden("blue","0"));
+      grain = parseInt(await laden("grain","0"));
+      
+      hex_farbe = rgbToHex(red, grain, blue);
+      await speichern("hex_farbe", hex_farbe);
+      document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
+    
+}
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  
+  function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }    
+    
+
+document.getElementById("btn_colorpicker").addEventListener("click",colorpick);
 document.getElementById("switch_kopie").addEventListener("click",switch_kopie_check);
 document.getElementById("btn_rand_reset").addEventListener("click",rand_reset);

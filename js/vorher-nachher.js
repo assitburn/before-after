@@ -99,6 +99,9 @@ async function vorher_nachher_portrait(){
 
 
 async function hintergrund_portrait(){
+   red = parseInt(await laden("red","0"));
+   blue = parseInt(await laden("blue","0"));
+   grain = parseInt(await laden("grain","0"));
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
    [
@@ -140,6 +143,25 @@ async function hintergrund_portrait(){
          "_options": {
             "dialogOptions": "dontDisplay"
          }
+      },{
+         "_obj": "set",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "foregroundColor"
+            }
+         ],
+         "to": {
+            "_obj": "RGBColor",
+            "red": red,
+            "grain": grain,
+            "blue": blue
+         },
+         "source": "photoshopPicker",
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
       },
       {
          "_obj": "fill",
@@ -164,6 +186,18 @@ async function hintergrund_portrait(){
             "_enum": "blendMode",
             "_value": "dissolve"
          },
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },  {
+         "_obj": "reset",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "colors"
+            }
+         ],
          "_isCommand": true,
          "_options": {
             "dialogOptions": "dontDisplay"
@@ -390,6 +424,9 @@ async function delete_layer(){
 }
 
 async function zusammenfuehren_quer(){
+   red = parseInt(await laden("red","0"));
+   blue = parseInt(await laden("blue","0"));
+   grain = parseInt(await laden("grain","0"));
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [{
@@ -471,7 +508,27 @@ async function zusammenfuehren_quer(){
           "_options": {
              "dialogOptions": "dontDisplay"
           }
-       },
+       }, {
+         "_obj": "set",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "foregroundColor"
+            }
+         ],
+         "to": {
+            "_obj": "RGBColor",
+            "red": red,
+            "grain": grain,
+            "blue": blue
+         },
+         "source": "photoshopPicker",
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      }
+,   
        {
           "_obj": "fill",
           "from": {
@@ -495,7 +552,19 @@ async function zusammenfuehren_quer(){
           "_options": {
              "dialogOptions": "dontDisplay"
           }
-       },
+       },{
+         "_obj": "reset",
+         "_target": [
+            {
+               "_ref": "color",
+               "_property": "colors"
+            }
+         ],
+         "_isCommand": true,
+         "_options": {
+            "dialogOptions": "dontDisplay"
+         }
+      },
        {
           "_obj": "move",
           "_target": [

@@ -14,3 +14,7 @@ var label_kein_doc_geladen="kein Dokument geladen";
 var label_nur_rgb_farbraum="nur RGB-Farbraum wird unterstützt";
 var rand = 10;
 var rand2 = rand * 2;
+var red = 0;
+var blue = 0;
+var grain = 0;
+var hex_farbe = "";

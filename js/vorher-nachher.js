@@ -117,25 +117,6 @@ async function hintergrund_portrait(){
          "_options": {
             "dialogOptions": "dontDisplay"
          }
-      },{
-         "_obj": "set",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "foregroundColor"
-            }
-         ],
-         "to": {
-            "_obj": "RGBColor",
-            "red": red,
-            "grain": grain,
-            "blue": blue
-         },
-         "source": "photoshopPicker",
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
       },
       {
          "_obj": "fill",
@@ -444,28 +425,7 @@ async function zusammenfuehren_quer(){
           "_options": {
              "dialogOptions": "dontDisplay"
           }
-       },
-         {
-         "_obj": "set",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "foregroundColor"
-            }
-         ],
-         "to": {
-            "_obj": "RGBColor",
-            "red": red,
-            "grain": grain,
-            "blue": blue
-         },
-         "source": "photoshopPicker",
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
-      }
-,   
+       },   
        {
           "_obj": "fill",
           "from": {

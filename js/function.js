@@ -311,6 +311,8 @@ async function autostart(){
     red = parseInt(await laden("red","255"));
     grain = parseInt(await laden("grain","255"));
     blue = parseInt(await laden("blue","255"));
+    
+    await fordergrundfarbe_setzen(red,grain,blue);
 }
 
 autostart();
@@ -334,16 +336,21 @@ async function colorpick(){
         },
     };
     const res = await require("photoshop").action.batchPlay([openPicker], {});
-    const rgbFloat = res[0].color;
-
-    speichern("red",rgbFloat.red.toFixed(0));
-    speichern("blue",rgbFloat.blue.toFixed(0));
-    speichern("grain",rgbFloat.grain.toFixed(0));
-    await fordergrundfarbe_setzen(rgbFloat.red.toFixed(0),rgbFloat.grain.toFixed(0),rgbFloat.blue.toFixed(0));
+    const rgbFloat = res[0].RGBFloatColor;
+   
+    
     red = parseInt(rgbFloat.red.toFixed(0));
     blue = parseInt(rgbFloat.blue.toFixed(0));
     grain = parseInt(rgbFloat.grain.toFixed(0));
+
+   
+    speichern("red",rgbFloat.red.toFixed(0));
+    speichern("blue",rgbFloat.blue.toFixed(0));
+    speichern("grain",rgbFloat.grain.toFixed(0));
     
+    await fordergrundfarbe_setzen(red,grain,blue);
+    
+   
     hex_farbe = rgbToHex(red, grain, blue);
     await speichern("hex_farbe", hex_farbe);
     document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';

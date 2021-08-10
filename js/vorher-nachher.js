@@ -26,111 +26,85 @@ async function vorher_nachher(){
 async function vorher_nachher_quer(){
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
-    await alle_ebenen_auswaehlen();
-    await farbreset();
-    await check_ebenen_nach_oben_zusammenfassen();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await select_layer_by_index(await layeranzahl());
-    await in_neue_datei_kopieren();
-    await background_check();
-    if (hintergrund_vorhanden == "ja"){
-        await hintergrund_entfernen();
-    }
-    await bildrahmen_unten(rand);
-    await arbeitsflaeche_erweitern_oben();
-    await ebenenauswahlaufheben();
-    if(document.getElementById("switch_kopie").checked){
+   await alle_ebenen_auswaehlen();
+   //await farbreset();
+   await check_ebenen_nach_oben_zusammenfassen();
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   await select_layer_by_index(await layeranzahl());
+   await in_neue_datei_kopieren();
+   await background_check();
+   if (hintergrund_vorhanden == "ja"){
+      await hintergrund_entfernen();
+   }
+   await bildrahmen_unten(rand);
+   await arbeitsflaeche_erweitern_oben();
+   await ebenenauswahlaufheben();
+   if(document.getElementById("switch_kopie").checked){
       await select_layer_by_index(1); 
    }else{
       await select_layer_by_index(0);
    }
-    await nach_oben_schieben();
-    await select_layer_by_index(0);
-    await zusammenfuehren_quer();
-    await menuCommand(1192);
-    neues_document = await document_id();
-    await dokument_aktivieren(original_document);
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await delete_layer();
-    await dokument_aktivieren(neues_document);
-    await renamelayer(label_layerneu);
-    return;
+   await nach_oben_schieben();
+   await select_layer_by_index(0);
+   await zusammenfuehren_quer();
+   await menuCommand(1192);
+   neues_document = await document_id();
+   await dokument_aktivieren(original_document);
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   await delete_layer();
+   await dokument_aktivieren(neues_document);
+   await renamelayer(label_layerneu);
+   return;
 }
 
 async function vorher_nachher_portrait(){
    original_document = await document_id(); 
-    await ebenenauswahlaufheben();
-    await alle_ebenen_auswaehlen();
-    await farbreset();
-    await check_ebenen_nach_oben_zusammenfassen();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await select_layer_by_index(await layeranzahl());
-    await in_neue_datei_kopieren();
-    await background_check();
-    if (hintergrund_vorhanden == "ja"){
-        await hintergrund_entfernen();
-    }
-    await bildrahmen_links(rand);
-    await arbeitsflaeche_erweitern();
-    await ebenenauswahlaufheben();
-    if(document.getElementById("switch_kopie").checked){
+   await ebenenauswahlaufheben();
+   await alle_ebenen_auswaehlen();
+   //await farbreset();
+   await check_ebenen_nach_oben_zusammenfassen();
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   await select_layer_by_index(await layeranzahl());
+   await in_neue_datei_kopieren();
+   await background_check();
+   if (hintergrund_vorhanden == "ja"){
+      await hintergrund_entfernen();
+   }
+   await bildrahmen_links(rand);
+   await arbeitsflaeche_erweitern();
+   await ebenenauswahlaufheben();
+   if(document.getElementById("switch_kopie").checked){
       await select_layer_by_index(1); 
    }else{
       await select_layer_by_index(0);
    }
-    //await select_layer_by_index(0);
-    await nach_rechts_schieben();
-    await menuCommand(1192);
-    neues_document = await document_id();
-    await dokument_aktivieren(original_document);
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await delete_layer();
-    await dokument_aktivieren(neues_document);
-    await hintergrund_portrait();
-    await ebenenauswahlaufheben();
-    await select_layer_by_index(0);
-    await renamelayer(label_layerneu);
-    return;
+   //await select_layer_by_index(0);
+   await nach_rechts_schieben();
+   await menuCommand(1192);
+   neues_document = await document_id();
+   await dokument_aktivieren(original_document);
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   await delete_layer();
+   await dokument_aktivieren(neues_document);
+   await hintergrund_portrait();
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   await renamelayer(label_layerneu);
+   return;
 }
 
 
 async function hintergrund_portrait(){
-   red = parseInt(await laden("red","0"));
-   blue = parseInt(await laden("blue","0"));
-   grain = parseInt(await laden("grain","0"));
+   //red = parseInt(await laden("red","255"));
+   //blue = parseInt(await laden("blue","255"));
+   //grain = parseInt(await laden("grain","255"));
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
    [
-      {
-         "_obj": "reset",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "colors"
-            }
-         ],
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
-      },
-      {
-         "_obj": "exchange",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "colors"
-            }
-         ],
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
-      },
       {
          "_obj": "make",
          "_target": [
@@ -190,19 +164,7 @@ async function hintergrund_portrait(){
          "_options": {
             "dialogOptions": "dontDisplay"
          }
-      },  {
-         "_obj": "reset",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "colors"
-            }
-         ],
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
-      },
+      },  
       {
          "_obj": "move",
          "_target": [
@@ -424,9 +386,9 @@ async function delete_layer(){
 }
 
 async function zusammenfuehren_quer(){
-   red = parseInt(await laden("red","0"));
-   blue = parseInt(await laden("blue","0"));
-   grain = parseInt(await laden("grain","0"));
+   //red = parseInt(await laden("red","255"));
+   //blue = parseInt(await laden("blue","255"));
+   //grain = parseInt(await laden("grain","255"));
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [{
@@ -483,32 +445,7 @@ async function zusammenfuehren_quer(){
              "dialogOptions": "dontDisplay"
           }
        },
-       {
-          "_obj": "reset",
-          "_target": [
-             {
-                "_ref": "color",
-                "_property": "colors"
-             }
-          ],
-          "_isCommand": true,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       },
-       {
-          "_obj": "exchange",
-          "_target": [
-             {
-                "_ref": "color",
-                "_property": "colors"
-             }
-          ],
-          "_isCommand": true,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       }, {
+         {
          "_obj": "set",
          "_target": [
             {
@@ -552,19 +489,7 @@ async function zusammenfuehren_quer(){
           "_options": {
              "dialogOptions": "dontDisplay"
           }
-       },{
-         "_obj": "reset",
-         "_target": [
-            {
-               "_ref": "color",
-               "_property": "colors"
-            }
-         ],
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
-         }
-      },
+       },
        {
           "_obj": "move",
           "_target": [
@@ -859,20 +784,7 @@ async function bildrahmen(breite,hoehe){
         "_options": {
             "dialogOptions": "dontDisplay"
         }
-    },{
-        "_obj": "reset",
-        "_target": [
-           {
-              "_ref": "color",
-              "_property": "colors"
-           }
-        ],
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     }
-  
+    }
     ],{
     "synchronousExecution": false,
     "modalBehavior": "fail",

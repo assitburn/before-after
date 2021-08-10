@@ -24,31 +24,45 @@ async function vorher_nachher(){
 }
 
 async function vorher_nachher_quer(){
-   await fordergrundfarbe_setzen(red,grain,blue);
+   while (loop != "1"){
+      await fordergrundfarbe_setzen(red,grain,blue);
+   }
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();
    //await farbreset();
-   await check_ebenen_nach_oben_zusammenfassen();
+   while (loop!="check_ebenen_nach_oben_zusammenfassen"){
+      await check_ebenen_nach_oben_zusammenfassen();
+   }
    await ebenenauswahlaufheben();
    await select_layer_by_index(0);
    await select_layer_by_index(await layeranzahl());
-   await in_neue_datei_kopieren();
+   while (loop !="in_neue_datei_kopieren"){
+      await in_neue_datei_kopieren();
+   }
    await background_check();
    if (hintergrund_vorhanden == "ja"){
       await hintergrund_entfernen();
    }
-   await bildrahmen_unten(rand);
-   await arbeitsflaeche_erweitern_oben();
+   while (loop!="bildrahmen_unten"){
+      await bildrahmen_unten(rand);
+   }
+   while (loop!="arbeitsflaeche_erweitern_oben"){
+      await arbeitsflaeche_erweitern_oben();
+   }
    await ebenenauswahlaufheben();
    if(document.getElementById("switch_kopie").checked){
       await select_layer_by_index(1); 
    }else{
       await select_layer_by_index(0);
    }
-   await nach_oben_schieben();
+   while (loop!="nach_oben_schieben"){
+      await nach_oben_schieben();
+   }
    await select_layer_by_index(0);
-   await zusammenfuehren_quer();
+   while (loop!="zusammenfuehren_quer"){
+      await zusammenfuehren_quer();
+   }
    await menuCommand(1192);
    neues_document = await document_id();
    await dokument_aktivieren(original_document);
@@ -61,30 +75,42 @@ async function vorher_nachher_quer(){
 }
 
 async function vorher_nachher_portrait(){
-   await fordergrundfarbe_setzen(red,grain,blue);
+   while (loop != "1"){
+      await fordergrundfarbe_setzen(red,grain,blue);
+   }
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();
    //await farbreset();
-   await check_ebenen_nach_oben_zusammenfassen();
+   while (loop!="check_ebenen_nach_oben_zusammenfassen"){
+      await check_ebenen_nach_oben_zusammenfassen();
+   }
    await ebenenauswahlaufheben();
    await select_layer_by_index(0);
    await select_layer_by_index(await layeranzahl());
-   await in_neue_datei_kopieren();
+   while (loop !="in_neue_datei_kopieren"){
+      await in_neue_datei_kopieren();
+   }
    await background_check();
    if (hintergrund_vorhanden == "ja"){
       await hintergrund_entfernen();
    }
-   await bildrahmen_links(rand);
-   await arbeitsflaeche_erweitern();
+   while (loop != "bildrahmen_links"){
+      await bildrahmen_links(rand);
+   }
+   while (loop !="arbeitsflaeche_erweitern"){
+      await arbeitsflaeche_erweitern();
+   }
+   
    await ebenenauswahlaufheben();
    if(document.getElementById("switch_kopie").checked){
       await select_layer_by_index(1); 
    }else{
       await select_layer_by_index(0);
    }
-   //await select_layer_by_index(0);
-   await nach_rechts_schieben();
+   while (loop != "nach_rechts_schieben"){
+      await nach_rechts_schieben();
+   }
    await menuCommand(1192);
    neues_document = await document_id();
    await dokument_aktivieren(original_document);
@@ -92,7 +118,9 @@ async function vorher_nachher_portrait(){
    await select_layer_by_index(0);
    await delete_layer();
    await dokument_aktivieren(neues_document);
-   await hintergrund_portrait();
+   while (loop != "hintergrund_portrait"){
+      await hintergrund_portrait();
+   }
    await ebenenauswahlaufheben();
    await select_layer_by_index(0);
    await renamelayer(label_layerneu);
@@ -192,6 +220,7 @@ async function hintergrund_portrait(){
       "synchronousExecution": false,
       "modalBehavior": "fail"
    });
+   loop ="hintergrund_portrait";
 }
 
 async function dokument_aktivieren(id){
@@ -515,7 +544,7 @@ async function zusammenfuehren_quer(){
        "synchronousExecution": false,
        "modalBehavior": "fail"
     });
-    
+    loop ="zusammenfuehren_quer";
 }
 
 async function nach_oben_schieben(){
@@ -561,6 +590,7 @@ async function nach_oben_schieben(){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
+    loop="nach_oben_schieben";
 }
 
 async function arbeitsflaeche_erweitern_oben(){
@@ -586,6 +616,7 @@ async function arbeitsflaeche_erweitern_oben(){
        "synchronousExecution": false,
        "modalBehavior": "fail"
     });
+    loop = "arbeitsflaeche_erweitern_oben";
 }
 
 async function bildrahmen_unten(wert){
@@ -611,6 +642,7 @@ async function bildrahmen_unten(wert){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
+    loop="bildrahmen_unten";
 }
 
 async function nach_rechts_schieben(){
@@ -701,6 +733,7 @@ async function nach_rechts_schieben(){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
+    loop = "nach_rechts_schieben";
 }
 
 async function select_layer_by_index(id){
@@ -784,6 +817,7 @@ async function bildrahmen_links(wert){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
+    loop="bildrahmen_links";
 }
 
 async function in_neue_datei_kopieren(){
@@ -820,7 +854,7 @@ async function in_neue_datei_kopieren(){
      "_value": "targetEnum"
      }}
     });
-
+    loop="in_neue_datei_kopieren";
 }
 
 async function arbeitsflaeche_erweitern(){
@@ -845,6 +879,7 @@ async function arbeitsflaeche_erweitern(){
     "synchronousExecution": false,
     "modalBehavior": "fail"
     });
+    loop="arbeitsflaeche_erweitern";
 }
 
 async function farbreset(){

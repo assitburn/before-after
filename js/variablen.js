@@ -18,3 +18,4 @@ var red = 255;
 var blue = 255;
 var grain = 255;
 var hex_farbe = "";
+var loop="0";

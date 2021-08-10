@@ -77,7 +77,7 @@ async function check_ebenen_nach_oben_zusammenfassen() {
         if (nummer > 0){
             await ebenen_nach_oben_zusammenfassen();
         }
-    
+    loop="check_ebenen_nach_oben_zusammenfassen";
 }
 async function ebenen_nach_oben_zusammenfassen(){
     const batchPlay = require("photoshop").action.batchPlay;
@@ -391,6 +391,7 @@ async function fordergrundfarbe_setzen(r,g,b){
     "synchronousExecution": false,
     "modalBehavior": "execute"
     });
+    loop="1";
 }
 
 document.getElementById("btn_colorpicker").addEventListener("click",colorpick);

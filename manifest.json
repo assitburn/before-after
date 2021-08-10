@@ -1,7 +1,7 @@
 {
   "id": "vorher.nachher.theme",
   "name": "Vorher-Nachher",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "index.html",
   "host": [
     {

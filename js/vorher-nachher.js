@@ -24,6 +24,7 @@ async function vorher_nachher(){
 }
 
 async function vorher_nachher_quer(){
+   await fordergrundfarbe_setzen(red,grain,blue);
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();
@@ -60,6 +61,7 @@ async function vorher_nachher_quer(){
 }
 
 async function vorher_nachher_portrait(){
+   await fordergrundfarbe_setzen(red,grain,blue);
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();

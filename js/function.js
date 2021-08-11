@@ -75,7 +75,9 @@ async function check_ebenen_nach_oben_zusammenfassen() {
         }
         
         if (nummer > 0){
-            await ebenen_nach_oben_zusammenfassen();
+            while(loop != "ebenen_nach_oben_zusammenfassen"){
+                await ebenen_nach_oben_zusammenfassen();
+            }
         }
     loop="check_ebenen_nach_oben_zusammenfassen";
 }
@@ -158,6 +160,7 @@ async function ebenen_nach_oben_zusammenfassen(){
         "_value": "targetEnum"
         }}
     });
+    loop = "ebenen_nach_oben_zusammenfassen";
 }
 async function alle_ebenen_auswaehlen(){
     const batchPlay = require("photoshop").action.batchPlay;
@@ -188,6 +191,29 @@ async function alle_ebenen_auswaehlen(){
      "_value": "targetEnum"
      }}
     });
+}
+async function ebene_loeschen_name(name){
+    const batchPlay = require("photoshop").action.batchPlay;
+    const result = await batchPlay(
+    [
+    {
+        "_obj": "delete",
+        "_target": [
+            {
+                "_ref": "layer",
+                "_name": name
+            }
+        ],
+        "_isCommand": true,
+        "_options": {
+            "dialogOptions": "dontDisplay"
+        }
+    }
+    ],{
+    "synchronousExecution": false,
+    "modalBehavior": "fail"
+    });
+    loop = "ebene_loeschen_name";
 }
 async function check_start(info){
     //Check ob Dokument geöffnet
@@ -391,7 +417,7 @@ async function fordergrundfarbe_setzen(r,g,b){
     "synchronousExecution": false,
     "modalBehavior": "execute"
     });
-    loop="1";
+    loop="fordergrundfarbe_setzen";
 }
 
 document.getElementById("btn_colorpicker").addEventListener("click",colorpick);

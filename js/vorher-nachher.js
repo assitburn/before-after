@@ -24,13 +24,14 @@ async function vorher_nachher(){
 }
 
 async function vorher_nachher_quer(){
-   while (loop != "1"){
+   while (loop != "fordergrundfarbe_setzen"){
       await fordergrundfarbe_setzen(red,grain,blue);
    }
-   original_document = await document_id(); 
+   while(loop != "document_id"){
+      original_document = await document_id(); 
+   }
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();
-   //await farbreset();
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
@@ -40,6 +41,7 @@ async function vorher_nachher_quer(){
    while (loop !="in_neue_datei_kopieren"){
       await in_neue_datei_kopieren();
    }
+   neues_document = await document_id();
    await background_check();
    if (hintergrund_vorhanden == "ja"){
       await hintergrund_entfernen();
@@ -64,24 +66,31 @@ async function vorher_nachher_quer(){
       await zusammenfuehren_quer();
    }
    await menuCommand(1192);
-   neues_document = await document_id();
-   await dokument_aktivieren(original_document);
+   while(loop !="renamelayer"){
+      await renamelayer(label_layerneu);
+   }
+   
+   while (loop != "dokument_aktivieren"){
+      await dokument_aktivieren(original_document);
+   }
    await ebenenauswahlaufheben();
    await select_layer_by_index(0);
-   await delete_layer();
-   await dokument_aktivieren(neues_document);
-   await renamelayer(label_layerneu);
+   while(loop!="ebene_loeschen_name"){
+      await ebene_loeschen_name(label_zusammengefasst);
+   }
+   while (loop != "dokument_aktivieren"){
+      await dokument_aktivieren(neues_document);
+   }
    return;
 }
 
 async function vorher_nachher_portrait(){
-   while (loop != "1"){
+   while (loop != "fordergrundfarbe_setzen"){
       await fordergrundfarbe_setzen(red,grain,blue);
    }
    original_document = await document_id(); 
    await ebenenauswahlaufheben();
    await alle_ebenen_auswaehlen();
-   //await farbreset();
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
@@ -93,7 +102,9 @@ async function vorher_nachher_portrait(){
    }
    await background_check();
    if (hintergrund_vorhanden == "ja"){
-      await hintergrund_entfernen();
+      while(loop !="hintergrund_entfernen"){
+         await hintergrund_entfernen();
+      }
    }
    while (loop != "bildrahmen_links"){
       await bildrahmen_links(rand);
@@ -101,7 +112,6 @@ async function vorher_nachher_portrait(){
    while (loop !="arbeitsflaeche_erweitern"){
       await arbeitsflaeche_erweitern();
    }
-   
    await ebenenauswahlaufheben();
    if(document.getElementById("switch_kopie").checked){
       await select_layer_by_index(1); 
@@ -113,25 +123,31 @@ async function vorher_nachher_portrait(){
    }
    await menuCommand(1192);
    neues_document = await document_id();
-   await dokument_aktivieren(original_document);
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
-   await delete_layer();
-   await dokument_aktivieren(neues_document);
    while (loop != "hintergrund_portrait"){
       await hintergrund_portrait();
    }
    await ebenenauswahlaufheben();
    await select_layer_by_index(0);
-   await renamelayer(label_layerneu);
+   while(loop !="renamelayer"){
+      await renamelayer(label_layerneu);
+   }
+   while (loop != "dokument_aktivieren"){
+      await dokument_aktivieren(original_document);
+   }
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
+   while(loop!="ebene_loeschen_name"){
+      await ebene_loeschen_name(label_zusammengefasst);
+   }
+
+   while (loop !="dokument_aktivieren"){
+      await dokument_aktivieren(neues_document);
+   }
    return;
 }
 
 
 async function hintergrund_portrait(){
-   //red = parseInt(await laden("red","255"));
-   //blue = parseInt(await laden("blue","255"));
-   //grain = parseInt(await laden("grain","255"));
    const batchPlay = require("photoshop").action.batchPlay;
    const result = await batchPlay(
    [
@@ -246,7 +262,7 @@ async function dokument_aktivieren(id){
       "synchronousExecution": false,
       "modalBehavior": "fail"
    });
-
+   loop = "dokument_aktivieren";
 }
 
 async function renamelayer(name){
@@ -275,7 +291,7 @@ async function renamelayer(name){
       "synchronousExecution": false,
       "modalBehavior": "fail"
    });
-
+   loop = "renamelayer";
 }
 
 async function document_id(){
@@ -303,6 +319,7 @@ async function document_id(){
       "modalBehavior": "fail"
    });
    const pinned = result[0].documentID;
+   loop = "document_id";
    return pinned;
 }
 
@@ -370,7 +387,7 @@ async function hintergrund_entfernen(){
        "synchronousExecution": false,
        "modalBehavior": "fail"
     });
-    
+    loop="hintergrund_entfernen";
 }
 
 async function delete_layer(){
@@ -395,6 +412,7 @@ async function delete_layer(){
       "synchronousExecution": false,
       "modalBehavior": "fail"
    });
+   loop = "delete_layer";
 }
 
 async function zusammenfuehren_quer(){

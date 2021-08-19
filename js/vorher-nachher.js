@@ -1,7 +1,10 @@
 async function vorher_nachher(){
-   rand = document.getElementById("FQ-rand-slider").value;
-   rand2 = rand * 2;
-   speichern("rand", rand);
+   while(loop!="slider"){
+      rand = document.getElementById("FQ-rand-slider").value;
+      rand2 = rand * 2;
+      await speichern("rand", rand);
+      loop = "slider";
+   }
    let testmodus = await check_start();
    if (testmodus == false) {
       return;
@@ -12,137 +15,161 @@ async function vorher_nachher(){
         const activeDoc = app.activeDocument;   
         original_document = await document_id();
         if (activeDoc.height > activeDoc.width){
-            vorher_nachher_portrait();
+            document_hoehe = activeDoc.height;
+            await vorher_nachher_portrait();
             showToast("Portrait",10000);
-        }else{
-            vorher_nachher_quer();
+         }else{
+            document_breite= activeDoc.width;
+            await vorher_nachher_quer();
             showToast("Quervormat",10000);
         }
     }else{
         showToast("zu wenig Ebenen vorhanden",20000);    
     }
+    
+    //await bildgroesseaendern(250);
+   if(document.getElementById("switch_resize").checked){
+      let groesse = document.getElementById("pixelgroesse").value;
+      await require("photoshop").core.executeAsModal(function(){ bildgroesseaendern(parseInt(groesse));});
+   }
 }
 
 async function vorher_nachher_quer(){
    while (loop != "fordergrundfarbe_setzen"){
-      await fordergrundfarbe_setzen(red,grain,blue);
+      await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
    }
    while(loop != "document_id"){
       original_document = await document_id(); 
    }
-   await ebenenauswahlaufheben();
-   await alle_ebenen_auswaehlen();
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(alle_ebenen_auswaehlen);
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
-   await select_layer_by_index(await layeranzahl());
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   let count = await layeranzahl();
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(count);});
+   
    while (loop !="in_neue_datei_kopieren"){
-      await in_neue_datei_kopieren();
+      await require("photoshop").core.executeAsModal(in_neue_datei_kopieren);
    }
    neues_document = await document_id();
-   await background_check();
+   await require("photoshop").core.executeAsModal(background_check);
    if (hintergrund_vorhanden == "ja"){
-      await hintergrund_entfernen();
+      while(loop !="hintergrund_entfernen"){
+         await require("photoshop").core.executeAsModal(hintergrund_entfernen);
+      }
    }
+
    while (loop!="bildrahmen_unten"){
-      await bildrahmen_unten(rand);
+      await require("photoshop").core.executeAsModal(bildrahmen_unten);
    }
+   
    while (loop!="arbeitsflaeche_erweitern_oben"){
-      await arbeitsflaeche_erweitern_oben();
+      await require("photoshop").core.executeAsModal(arbeitsflaeche_erweitern_oben);
    }
-   await ebenenauswahlaufheben();
+   
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
    if(document.getElementById("switch_kopie").checked){
-      await select_layer_by_index(1); 
+      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(1);});
    }else{
-      await select_layer_by_index(0);
+      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
    }
+   
    while (loop!="nach_oben_schieben"){
-      await nach_oben_schieben();
+      await require("photoshop").core.executeAsModal(nach_oben_schieben);
    }
-   await select_layer_by_index(0);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
    while (loop!="zusammenfuehren_quer"){
-      await zusammenfuehren_quer();
+      await require("photoshop").core.executeAsModal(zusammenfuehren_quer);
    }
    await menuCommand(1192);
    while(loop !="renamelayer"){
-      await renamelayer(label_layerneu);
+      await require("photoshop").core.executeAsModal(function(){renamelayer(label_layerneu);});
    }
    
    while (loop != "dokument_aktivieren"){
       await dokument_aktivieren(original_document);
    }
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
    while(loop!="ebene_loeschen_name"){
-      await ebene_loeschen_name(label_zusammengefasst);
+      await require("photoshop").core.executeAsModal(function(){ebene_loeschen_name(label_zusammengefasst);});
    }
    while (loop != "dokument_aktivieren"){
       await dokument_aktivieren(neues_document);
    }
+   look ="vorher_nachher_quer";
    return;
 }
 
 async function vorher_nachher_portrait(){
    while (loop != "fordergrundfarbe_setzen"){
-      await fordergrundfarbe_setzen(red,grain,blue);
+      await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
    }
    original_document = await document_id(); 
-   await ebenenauswahlaufheben();
-   await alle_ebenen_auswaehlen();
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(alle_ebenen_auswaehlen);
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
-   await select_layer_by_index(await layeranzahl());
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   let count = await layeranzahl();
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(count);});
+   
    while (loop !="in_neue_datei_kopieren"){
-      await in_neue_datei_kopieren();
+      await require("photoshop").core.executeAsModal(in_neue_datei_kopieren);
    }
-   await background_check();
+
+   await require("photoshop").core.executeAsModal(background_check);
    if (hintergrund_vorhanden == "ja"){
       while(loop !="hintergrund_entfernen"){
-         await hintergrund_entfernen();
+         await require("photoshop").core.executeAsModal(hintergrund_entfernen);
       }
    }
    while (loop != "bildrahmen_links"){
-      await bildrahmen_links(rand);
+      await require("photoshop").core.executeAsModal(bildrahmen_links);
    }
    while (loop !="arbeitsflaeche_erweitern"){
-      await arbeitsflaeche_erweitern();
+      await require("photoshop").core.executeAsModal(arbeitsflaeche_erweitern);
    }
-   await ebenenauswahlaufheben();
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
    if(document.getElementById("switch_kopie").checked){
-      await select_layer_by_index(1); 
+      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(1);});
    }else{
-      await select_layer_by_index(0);
+      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
    }
    while (loop != "nach_rechts_schieben"){
-      await nach_rechts_schieben();
+      await require("photoshop").core.executeAsModal(nach_rechts_schieben);
    }
    await menuCommand(1192);
    neues_document = await document_id();
    while (loop != "hintergrund_portrait"){
-      await hintergrund_portrait();
+      await require("photoshop").core.executeAsModal(hintergrund_portrait);
    }
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
+
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   
    while(loop !="renamelayer"){
-      await renamelayer(label_layerneu);
+      await require("photoshop").core.executeAsModal(function(){renamelayer(label_layerneu);});
    }
+   
    while (loop != "dokument_aktivieren"){
       await dokument_aktivieren(original_document);
    }
-   await ebenenauswahlaufheben();
-   await select_layer_by_index(0);
+   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
    while(loop!="ebene_loeschen_name"){
-      await ebene_loeschen_name(label_zusammengefasst);
+      await require("photoshop").core.executeAsModal(function(){ebene_loeschen_name(label_zusammengefasst);});
    }
 
    while (loop !="dokument_aktivieren"){
       await dokument_aktivieren(neues_document);
    }
+   look ="vorher_nachher_portrait";
    return;
 }
 
@@ -165,33 +192,24 @@ async function hintergrund_portrait(){
          }
       },
       {
-         "_obj": "fill",
-         "from": {
-            "_obj": "paint",
-            "horizontal": {
-               "_unit": "pixelsUnit",
-               "_value": 1887
-            },
-            "vertical": {
-               "_unit": "pixelsUnit",
-               "_value": 808
-            }
+         _obj: "fill",
+         using: {
+            _enum: "fillContents",
+            _value: "foregroundColor"
          },
-         "tolerance": 32,
-         "antiAlias": true,
-         "using": {
-            "_enum": "fillContents",
-            "_value": "foregroundColor"
+         opacity: {
+            _unit: "percentUnit",
+            _value: 100
          },
-         "mode": {
-            "_enum": "blendMode",
-            "_value": "dissolve"
+         mode: {
+            _enum: "blendMode",
+            _value: "normal"
          },
-         "_isCommand": true,
-         "_options": {
-            "dialogOptions": "dontDisplay"
+         _options: {
+            dialogOptions: "dontDisplay"
          }
-      },  
+      }
+,   
       {
          "_obj": "move",
          "_target": [
@@ -233,8 +251,7 @@ async function hintergrund_portrait(){
       }
    
    ],{
-      "synchronousExecution": false,
-      "modalBehavior": "fail"
+      "synchronousExecution": false
    });
    loop ="hintergrund_portrait";
 }
@@ -259,8 +276,7 @@ async function dokument_aktivieren(id){
       }
      
    ],{
-      "synchronousExecution": false,
-      "modalBehavior": "fail"
+      "synchronousExecution": false
    });
    loop = "dokument_aktivieren";
 }
@@ -288,8 +304,7 @@ async function renamelayer(name){
          }
       }
    ],{
-      "synchronousExecution": false,
-      "modalBehavior": "fail"
+      "synchronousExecution": false
    });
    loop = "renamelayer";
 }
@@ -315,8 +330,7 @@ async function document_id(){
          }
       }
    ],{
-      "synchronousExecution": false,
-      "modalBehavior": "fail"
+      "synchronousExecution": false
    });
    const pinned = result[0].documentID;
    loop = "document_id";
@@ -341,8 +355,7 @@ async function background_check(){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     const pinned = result[0].hasBackgroundLayer;
     if (pinned){
@@ -384,8 +397,7 @@ async function hintergrund_entfernen(){
           }
        }
     ],{
-       "synchronousExecution": false,
-       "modalBehavior": "fail"
+       "synchronousExecution": false
     });
     loop="hintergrund_entfernen";
 }
@@ -409,8 +421,7 @@ async function delete_layer(){
          }
       }
    ],{
-      "synchronousExecution": false,
-      "modalBehavior": "fail"
+      "synchronousExecution": false
    });
    loop = "delete_layer";
 }
@@ -476,29 +487,24 @@ async function zusammenfuehren_quer(){
           }
        },   
        {
-          "_obj": "fill",
-          "from": {
-             "_obj": "paint",
-             "horizontal": {
-                "_unit": "pixelsUnit",
-                "_value": 1114
-             },
-             "vertical": {
-                "_unit": "pixelsUnit",
-                "_value": 1347
-             }
-          },
-          "tolerance": 32,
-          "antiAlias": true,
-          "using": {
-             "_enum": "fillContents",
-             "_value": "foregroundColor"
-          },
-          "_isCommand": true,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       },
+         _obj: "fill",
+         using: {
+            _enum: "fillContents",
+            _value: "foregroundColor"
+         },
+         opacity: {
+            _unit: "percentUnit",
+            _value: 100
+         },
+         mode: {
+            _enum: "blendMode",
+            _value: "normal"
+         },
+         _options: {
+            dialogOptions: "dontDisplay"
+         }
+      }
+   ,
        {
           "_obj": "move",
           "_target": [
@@ -559,8 +565,7 @@ async function zusammenfuehren_quer(){
           }
        }
     ],{
-       "synchronousExecution": false,
-       "modalBehavior": "fail"
+       "synchronousExecution": false
     });
     loop ="zusammenfuehren_quer";
 }
@@ -605,8 +610,7 @@ async function nach_oben_schieben(){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop="nach_oben_schieben";
 }
@@ -631,13 +635,12 @@ async function arbeitsflaeche_erweitern_oben(){
           }
        }
     ],{
-       "synchronousExecution": false,
-       "modalBehavior": "fail"
+       "synchronousExecution": false
     });
     loop = "arbeitsflaeche_erweitern_oben";
 }
 
-async function bildrahmen_unten(wert){
+async function bildrahmen_unten(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [{
@@ -645,7 +648,7 @@ async function bildrahmen_unten(wert){
         "relative": true,
         "height": {
             "_unit": "pixelsUnit",
-            "_value": wert
+            "_value": rand
         },
         "vertical": {
             "_enum": "verticalLocation",
@@ -657,8 +660,7 @@ async function bildrahmen_unten(wert){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop="bildrahmen_unten";
 }
@@ -748,8 +750,7 @@ async function nach_rechts_schieben(){
    }
   
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop = "nach_rechts_schieben";
 }
@@ -800,7 +801,7 @@ async function bildrahmen(breite,hoehe){
     }
     ],{
     "synchronousExecution": false,
-    "modalBehavior": "fail",
+    
     "historyStateInfo": {
      "name": label_rahmen_hinzufuegen,
      "target": {
@@ -811,7 +812,7 @@ async function bildrahmen(breite,hoehe){
     });
 }
 
-async function bildrahmen_links(wert){
+async function bildrahmen_links(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [
@@ -820,7 +821,7 @@ async function bildrahmen_links(wert){
         "relative": true,
         "width": {
             "_unit": "pixelsUnit",
-            "_value": wert
+            "_value": rand
         },
         "horizontal": {
             "_enum": "horizontalLocation",
@@ -832,8 +833,7 @@ async function bildrahmen_links(wert){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop="bildrahmen_links";
 }
@@ -863,7 +863,7 @@ async function in_neue_datei_kopieren(){
     }
     ],{
     "synchronousExecution": false,
-    "modalBehavior": "fail",
+    
     "historyStateInfo": {
      "name": label_in_neue_datei_kopieren,
      "target": {
@@ -894,8 +894,7 @@ async function arbeitsflaeche_erweitern(){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop="arbeitsflaeche_erweitern";
 }
@@ -917,8 +916,7 @@ async function farbreset(){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
 }
 document.getElementById("btn_vorher_nachher").addEventListener("click", vorher_nachher);

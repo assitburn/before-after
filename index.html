@@ -6,6 +6,7 @@
     <script src="js/function.js"></script>  
     <script src="js/vorher-nachher.js"></script>
     <script src="js/variablen.js"></script>
+    <script src="js/size.js"></script>
   
 </head>
 
@@ -16,11 +17,13 @@
         <sp-action-button size="s" id="btn_rand_reset">Reset</sp-action-button><sp-button variant="primary" id="btn_colorpicker">Randfarbe</sp-button>
         <sp-slider id="FQ-rand-slider" min="1" max="100" step="1" value="10"><sp-label ID="radius" slot="label">Randstärke in Pixel</sp-label></sp-slider>
       </div>
+      <div class="group"><sp-label>Größe</sp-label>
+        <sp-heading><sp-switch id="switch_resize" label="groesse anpassen">Größe anpassen</sp-switch></sp-heading>
+        <sp-heading><sp-textfield type="number" id="pixelgroesse" disabled="" placeholder="längste Seite in Pixel"><sp-label slot="label">längste Seite (px)</sp-label></sp-textfield></sp-heading>
+      </div>
       <div class="group"><sp-label>Vorher-Nachher</sp-label>
-        
-        <sp-heading><sp-switch id="switch_kopie" label="Kopie rechts / oben">Kopie rechts / oben</sp-switch></sp-heading><br>
+        <sp-heading><sp-switch id="switch_kopie" label="Kopie rechts / oben">Kopie rechts / oben</sp-switch></sp-heading>
         <sp-heading><p> <sp-button variant="primary" id="btn_vorher_nachher">Vorher-Nachher</sp-button></p></sp-heading>
-        
       </div>
     </div>
   </div>

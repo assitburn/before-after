@@ -19,3 +19,7 @@ var blue = 255;
 var grain = 255;
 var hex_farbe = "";
 var loop="0";
+var pixelchange=false;
+var document_hoehe =0;
+var document_breite=0;
+var richtung="";

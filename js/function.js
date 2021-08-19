@@ -52,7 +52,7 @@ async function ebenenauswahlaufheben(){
     }
     ],{
     "synchronousExecution": false,
-    "modalBehavior": "fail",
+    
     "historyStateInfo": {
         "name": "Ebenenauswahl aufgehoben",
         "target": {
@@ -76,7 +76,7 @@ async function check_ebenen_nach_oben_zusammenfassen() {
         
         if (nummer > 0){
             while(loop != "ebenen_nach_oben_zusammenfassen"){
-                await ebenen_nach_oben_zusammenfassen();
+                await require("photoshop").core.executeAsModal(ebenen_nach_oben_zusammenfassen);
             }
         }
     loop="check_ebenen_nach_oben_zusammenfassen";
@@ -151,7 +151,7 @@ async function ebenen_nach_oben_zusammenfassen(){
        }
     ],{
        "synchronousExecution": false,
-       "modalBehavior": "fail",
+       
        "historyStateInfo": {
         "name": label_zusammengefasst,
         "target": {
@@ -182,7 +182,7 @@ async function alle_ebenen_auswaehlen(){
     }
     ],{
     "synchronousExecution": false,
-    "modalBehavior": "fail",
+    
     "historyStateInfo": {
      "name": label_alle_ebenen_auswaehlen,
      "target": {
@@ -210,8 +210,7 @@ async function ebene_loeschen_name(name){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "fail"
+    "synchronousExecution": false
     });
     loop = "ebene_loeschen_name";
 }
@@ -243,8 +242,8 @@ async function check_start(info){
             "dialogOptions": "dontDisplay"
           }
         }], {
-          "synchronousExecution": false,
-          "modalBehavior": "fail"
+          "synchronousExecution": false
+          
         });
     var documentDepth = result[0].depth;
     
@@ -274,8 +273,8 @@ async function check_start(info){
             }
         }
     ],{
-        "synchronousExecution": false,
-        "modalBehavior": "fail"
+        "synchronousExecution": false
+        
     });
     let colormod = result2[0].mode._value;
     if (colormod!="RGBColor"){
@@ -313,17 +312,17 @@ async function switch_kopie_check(){
     }   
 }
 
-function laden(key,default_wert) {
+async function laden(key,default_wert) {
     const savedPreference = localStorage.getItem(key);
     return (savedPreference === undefined) ? default_wert : savedPreference;
 }
 
-function laden_zahl(key, default_wert) {
+async function laden_zahl(key, default_wert) {
     const savedPreference = localStorage.getItem(key);
-    return (savedPreference === undefined) ? number(default_wert) : number(savedPreference);
+    return (savedPreference === undefined) ? parseInt(default_wert) : parseInt(savedPreference);
 }
 
-function speichern(key,wert) {
+async function speichern(key,wert) {
     localStorage.setItem(key, wert.toString());
 }
 
@@ -331,19 +330,30 @@ async function autostart(){
     const version_nummer = require("uxp").versions.plugin;
     const copyright_text= "&copy; 2021 Carsten Gerdes Version "+version_nummer;
     document.getElementById("copyright").innerHTML = copyright_text;    
-    document.getElementById("FQ-rand-slider").value = laden("rand","15");
-    hex_farbe = laden("hex_farbe","#ffffff");
-    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
+    
+    document.getElementById("FQ-rand-slider").value = await laden("rand","15");
     red = parseInt(await laden("red","255"));
     grain = parseInt(await laden("grain","255"));
     blue = parseInt(await laden("blue","255"));
+    //hex_farbe = laden("hex_farbe","#ffffff");
+    hex_farbe = rgbToHex(red, grain, blue);
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
     
-    await fordergrundfarbe_setzen(red,grain,blue);
+    
+    await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
 }
 
 autostart();
 async function rand_reset(){
     document.getElementById("FQ-rand-slider").value=10;
+    red=255;grain=255;blue=255;
+    await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
+    speichern("red",red);
+    speichern("blue",blue);
+    speichern("grain",grain);
+    hex_farbe = rgbToHex(red, grain, blue);
+    await speichern("hex_farbe", hex_farbe);
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
 }
 
 async function colorpick(){
@@ -370,9 +380,9 @@ async function colorpick(){
     grain = parseInt(rgbFloat.grain.toFixed(0));
 
    
-    speichern("red",rgbFloat.red.toFixed(0));
-    speichern("blue",rgbFloat.blue.toFixed(0));
-    speichern("grain",rgbFloat.grain.toFixed(0));
+    speichern("red",red);
+    speichern("blue",blue);
+    speichern("grain",grain);
     
     await fordergrundfarbe_setzen(red,grain,blue);
     
@@ -414,12 +424,12 @@ async function fordergrundfarbe_setzen(r,g,b){
         }
     }
     ],{
-    "synchronousExecution": false,
-    "modalBehavior": "execute"
+    "synchronousExecution": false
+    
     });
     loop="fordergrundfarbe_setzen";
 }
 
-document.getElementById("btn_colorpicker").addEventListener("click",colorpick);
+document.getElementById("btn_colorpicker").addEventListener("click",function(){require("photoshop").core.executeAsModal(colorpick);});
 document.getElementById("switch_kopie").addEventListener("click",switch_kopie_check);
 document.getElementById("btn_rand_reset").addEventListener("click",rand_reset);

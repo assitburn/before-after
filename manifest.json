@@ -1,14 +1,14 @@
 {
   "id": "vorher.nachher.theme",
   "name": "Vorher-Nachher",
-  "version": "1.0.12",
+  "version": "1.2.1",
   "main": "index.html",
   "host": [
     {
       "app": "PS",
-      "minVersion": "22.0.0",
+      "minVersion": "22.5.0",
         "data": {
-          "apiVersion": 1
+          "apiVersion": 2
         }
     }
   ],
@@ -19,19 +19,19 @@
       "id": "vanilla",
       "minimumSize": {
         "width": 300,
-        "height": 400
+        "height": 570
       },
       "maximumSize": {
         "width": 300,
-        "height": 400
+        "height": 570
       },
       "preferredDockedSize": {
         "width": 300,
-        "height": 400
+        "height": 570
       },
       "preferredFloatingSize": {
         "width": 300,
-        "height": 400
+        "height": 570
       },
       
       "icons": [

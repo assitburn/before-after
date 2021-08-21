@@ -32,6 +32,8 @@ var label_Ebenenauswahl_aufgehoben = "Ebenenauswahl aufgehoben";
 var dateiname = "Vorher-Nachher";
 var label_Querformat ="Querformat";
 var label_portrait = "Portrait";
+var label_pixel = " Pixel";
+var label_bildgroesse = "Bildgröße ";
 
 
 function sprache_auswählen(){
@@ -61,6 +63,8 @@ function englisch(){
     dateiname = "Before-After";
     label_Querformat = "landscape";
     label_portrait = "portrait";
+    label_pixel = " pixel";
+    label_bildgroesse = "Picture-size ";
 
     label_32bitohneunterstützung = "no 32 bit Support";
     label_kein_doc_geladen = "no document loaded";

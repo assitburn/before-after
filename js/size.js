@@ -97,7 +97,7 @@ async function bildgroesseaendern(px){
     "synchronousExecution": false,
     
     "historyStateInfo": {
-        "name": "Bildgrösse " + px + " Pixel",
+        "name": label_bildgroesse + px + label_pixel,
         "target": {
         "_ref":"document",
         "_enum": "ordinal",

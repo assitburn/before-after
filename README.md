@@ -1,6 +1,6 @@
 # Before-After Photoshop Plugin (Vanilla)
 
-This plugin create a new document where the before and after layer will be placed on ony layer.
+This plugin create a new document where the before and after layer will be placed on ony layer side by side.
 
 ## Loading in Photoshop
 

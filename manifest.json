@@ -1,7 +1,11 @@
 {
   "id": "vorher.nachher.theme",
-  "name": "Vorher-Nachher",
-  "version": "1.2.1",
+  
+  "name": {
+    "default": "Before-After",
+    "de": "Vorher-Nachher"
+  },  
+  "version": "1.2.3",
   "main": "index.html",
   "host": [
     {
@@ -17,6 +21,10 @@
     {
       "type": "panel",
       "id": "vanilla",
+      "label": {
+        "default": "Before-After",
+        "de": "Vorher-Nachher"
+      },  
       "minimumSize": {
         "width": 300,
         "height": 570
@@ -68,7 +76,7 @@
   "icons": [{
     "width": 48,
     "height": 48,
-    "path": "icons/plugin.png",
+    "path": "icons/plugin-dark.png",
     "scale": [1, 2],
     "theme": ["darkest", "dark", "medium"],
     "species": [ "pluginList" ]

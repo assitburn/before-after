@@ -54,7 +54,7 @@ async function ebenenauswahlaufheben(){
     "synchronousExecution": false,
     
     "historyStateInfo": {
-        "name": "Ebenenauswahl aufgehoben",
+        "name": label_Ebenenauswahl_aufgehoben,
         "target": {
            "_ref":"document",
            "_enum": "ordinal",
@@ -303,12 +303,12 @@ function removetoast_red(){
 
 async function switch_kopie_check(){
     if(document.getElementById("switch_kopie").checked){
-        document.getElementById("switch_kopie").innerHTML="Kopie links / unten";
+        document.getElementById("switch_kopie").innerHTML=label_links_unten;
         
-        showToast("Kopie wird links / unten angezeigt",5000);
+        showToast(label_kopie_links,5000);
     }else{
-        document.getElementById("switch_kopie").innerHTML="Kopie rechts / oben";
-        showToast("Kopie wird rechts / oben angezeigt",5000);
+        document.getElementById("switch_kopie").innerHTML=label_rechts_oben;
+        showToast(label_kopie_rechts,5000);
     }   
 }
 
@@ -337,7 +337,7 @@ async function autostart(){
     blue = parseInt(await laden("blue","255"));
     //hex_farbe = laden("hex_farbe","#ffffff");
     hex_farbe = rgbToHex(red, grain, blue);
-    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>'+label_rahmenfarbe;
     
     
     await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
@@ -353,7 +353,7 @@ async function rand_reset(){
     speichern("grain",grain);
     hex_farbe = rgbToHex(red, grain, blue);
     await speichern("hex_farbe", hex_farbe);
-    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>'+label_rahmenfarbe;
 }
 
 async function colorpick(){
@@ -389,7 +389,7 @@ async function colorpick(){
    
     hex_farbe = rgbToHex(red, grain, blue);
     await speichern("hex_farbe", hex_farbe);
-    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>Rahmenfarbe';
+    document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>'+label_rahmenfarbe;
 }
 function componentToHex(c) {
     var hex = c.toString(16);

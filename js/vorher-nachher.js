@@ -17,11 +17,11 @@ async function vorher_nachher(){
         if (activeDoc.height > activeDoc.width){
             document_hoehe = activeDoc.height;
             await vorher_nachher_portrait();
-            showToast("Portrait",10000);
+            showToast(label_portrait,10000);
          }else{
             document_breite= activeDoc.width;
             await vorher_nachher_quer();
-            showToast("Quervormat",10000);
+            showToast(label_Querformat,10000);
         }
     }else{
         showToast("zu wenig Ebenen vorhanden",20000);    
@@ -427,9 +427,6 @@ async function delete_layer(){
 }
 
 async function zusammenfuehren_quer(){
-   //red = parseInt(await laden("red","255"));
-   //blue = parseInt(await laden("blue","255"));
-   //grain = parseInt(await laden("grain","255"));
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [{
@@ -849,7 +846,7 @@ async function in_neue_datei_kopieren(){
                 "_ref": "document"
             }
         ],
-        "name": "Vorher-Nachher",
+        "name": dateiname,
         "using": {
             "_ref": "layer",
             "_enum": "ordinal",

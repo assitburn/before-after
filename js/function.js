@@ -338,15 +338,14 @@ async function autostart(){
     //hex_farbe = laden("hex_farbe","#ffffff");
     hex_farbe = rgbToHex(red, grain, blue);
     document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>'+label_rahmenfarbe;
-    
-    
+        
     await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
 }
 
 autostart();
 async function rand_reset(){
     document.getElementById("FQ-rand-slider").value=10;
-    red=255;grain=255;blue=255;
+    red=255; grain=255; blue=255;
     await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
     speichern("red",red);
     speichern("blue",blue);

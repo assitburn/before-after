@@ -90,7 +90,7 @@ async function vorher_nachher_quer(){
    }
    
    while (loop != "dokument_aktivieren"){
-      await dokument_aktivieren(original_document);
+      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(original_document);});
    }
    await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
    await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
@@ -98,7 +98,7 @@ async function vorher_nachher_quer(){
       await require("photoshop").core.executeAsModal(function(){ebene_loeschen_name(label_zusammengefasst);});
    }
    while (loop != "dokument_aktivieren"){
-      await dokument_aktivieren(neues_document);
+      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
    }
    look ="vorher_nachher_quer";
    return;
@@ -158,7 +158,7 @@ async function vorher_nachher_portrait(){
    }
    
    while (loop != "dokument_aktivieren"){
-      await dokument_aktivieren(original_document);
+      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(original_document);});
    }
    await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
    await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
@@ -167,7 +167,7 @@ async function vorher_nachher_portrait(){
    }
 
    while (loop !="dokument_aktivieren"){
-      await dokument_aktivieren(neues_document);
+      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
    }
    look ="vorher_nachher_portrait";
    return;

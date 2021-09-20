@@ -5,7 +5,7 @@
     "default": "Before-After",
     "de": "Vorher-Nachher"
   },  
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "index.html",
   "host": [
     {

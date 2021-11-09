@@ -30,7 +30,7 @@ async function vorher_nachher(){
     //await bildgroesseaendern(250);
    if(document.getElementById("switch_resize").checked){
       let groesse = document.getElementById("pixelgroesse").value;
-      await require("photoshop").core.executeAsModal(function(){ bildgroesseaendern(parseInt(groesse));});
+      await require("photoshop").core.executeAsModal(function(){bildgroesseaendern(parseInt(groesse));});
    }
 }
 

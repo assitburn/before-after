@@ -192,7 +192,9 @@ async function alle_ebenen_auswaehlen(){
      }}
     });
 }
+
 async function ebene_loeschen_name(name){
+    try{
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
     [
@@ -206,14 +208,16 @@ async function ebene_loeschen_name(name){
         ],
         "_isCommand": true,
         "_options": {
-            "dialogOptions": "dontDisplay"
+            "dialogOptions": "silent"
         }
     }
     ],{
     "synchronousExecution": false
     });
     loop = "ebene_loeschen_name";
+    }catch(e){}
 }
+
 async function check_start(info){
     //Check ob Dokument geöffnet
     const app = require('photoshop').app;

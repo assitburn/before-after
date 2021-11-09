@@ -100,7 +100,7 @@ async function vorher_nachher_quer(){
    while (loop != "dokument_aktivieren"){
       await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
    }
-   look ="vorher_nachher_quer";
+   //look ="vorher_nachher_quer";
    return;
 }
 
@@ -169,7 +169,7 @@ async function vorher_nachher_portrait(){
    while (loop !="dokument_aktivieren"){
       await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
    }
-   look ="vorher_nachher_portrait";
+   //look ="vorher_nachher_portrait";
    return;
 }
 

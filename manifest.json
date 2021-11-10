@@ -5,7 +5,8 @@
     "default": "Before-After",
     "de": "Vorher-Nachher"
   },  
-  "version": "1.2.8",
+  "version": "1.2.9",
+  "manifestVersion": 5,
   "main": "index.html",
   "host": [
     {
@@ -16,7 +17,16 @@
         }
     }
   ],
-  "manifestVersion": 4,
+  "requiredPermissions": {
+		"clipboard": "readAndWrite",
+		"launchProcess": "request",
+		"allowCodeGenerationFromStrings": true,
+		"localFileSystem":"fullAccess",
+    "network": {
+			"domains": ["www.paparozzi.de"]
+		}
+	},
+  
   "entrypoints": [
     {
       "type": "panel",

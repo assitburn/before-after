@@ -72,9 +72,9 @@ function englisch(){
 
     document.getElementById("label_rand").innerHTML = "Border";
     document.getElementById("label_Randstaerke").innerHTML = "Border size in pixel";
-    document.getElementById("label_bildgroesse").innerHTML = "Picture size";
-    document.getElementById("switch_resize").innerHTML = "change size";
-    document.getElementById("label_laengsteSeite").innerHTML = "longest side (px)";
+    //document.getElementById("label_bildgroesse").innerHTML = "Picture size";
+    //document.getElementById("switch_resize").innerHTML = "change size";
+    //document.getElementById("label_laengsteSeite").innerHTML = "longest side (px)";
     document.getElementById("label_vorher_nachher").innerHTML = "Before-After";
     document.getElementById("btn_vorher_nachher").innerHTML = "Before-After";
     document.getElementById("switch_kopie").innerHTML = label_rechts_oben;

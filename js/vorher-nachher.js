@@ -9,6 +9,7 @@ async function vorher_nachher(){
    if (testmodus == false) {
       return;
    }
+   
     await layeranzahl();
     if (layercount >0){
         const app = require("photoshop").app;

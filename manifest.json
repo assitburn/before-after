@@ -5,26 +5,24 @@
     "default": "Before-After",
     "de": "Vorher-Nachher"
   },  
-  "version": "1.2.15",
-  "manifestVersion": 5,
+  "version": "1.2.16",
   "main": "index.html",
   "host": [
     {
       "app": "PS",
-      "minVersion": "23.0.0",
+      "minVersion": "23.3.0",
         "data": {
           "apiVersion": 2
         }
     }
   ],
+  "manifestVersion": 5,
   "permissions": {
     "launchProcess": {
          "schemes": [ "https", "slack", "adbxd" ],
          "extensions": [ ".pdf", ".xd", ".ps" ]
     }, 
-    "webview": {
-      "allow": "yes"
-    },
+    
     "clipboard": "readAndWrite",
     "allowCodeGenerationFromStrings": true,
     "localFileSystem":"fullAccess"
@@ -34,15 +32,13 @@
       "schemes": [ "https", "slack", "adbxd" ],
       "extensions": [ ".pdf", ".xd", ".ps" ]
     },
-    "webview": {
-      "allow": "yes"
-    },
+  
     "clipboard": "readAndWrite",
     "allowCodeGenerationFromStrings": true,
-    "localFileSystem":"fullAccess"   
+    "localFileSystem":"fullAccess"
+  
+    
   },
-  
-  
   "entrypoints": [
     {
       "type": "panel",

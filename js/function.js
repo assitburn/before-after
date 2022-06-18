@@ -32,6 +32,17 @@ async function layeranzahl(){
     return anzahl;
 }
 
+function menuCommand(id) {
+    require('photoshop').core.performMenuCommand({
+      commandID: id,
+      kcanDispatchWhileModal: true,
+      _isCommand: false
+    });
+}
+async function ebene_nach_oben_schieben(){
+    menuCommand(2711);
+}
+
 async function ebenenauswahlaufheben(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -81,6 +92,7 @@ async function check_ebenen_nach_oben_zusammenfassen() {
         }
     loop="check_ebenen_nach_oben_zusammenfassen";
 }
+
 async function ebenen_nach_oben_zusammenfassen(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -93,44 +105,8 @@ async function ebenen_nach_oben_zusammenfassen(){
              "dialogOptions": "dontDisplay"
           }
        },
-       {
-          "_obj": "move",
-          "_target": [
-             {
-                "_ref": "layer",
-                "_enum": "ordinal",
-                "_value": "targetEnum"
-             }
-          ],
-          "to": {
-             "_ref": "layer",
-             "_enum": "ordinal",
-             "_value": "front"
-          },
-          "_isCommand": true,
-          "_options": {
-             "dialogOptions": "dontDisplay"
-          }
-       },
-       {
-        "_obj": "move",
-        "_target": [
-           {
-              "_ref": "layer",
-              "_enum": "ordinal",
-              "_value": "targetEnum"
-           }
-        ],
-        "to": {
-           "_ref": "layer",
-           "_enum": "ordinal",
-           "_value": "front"
-        },
-        "_isCommand": true,
-        "_options": {
-           "dialogOptions": "dontDisplay"
-        }
-     },
+       
+       
        {
           "_obj": "set",
           "_target": [
@@ -162,6 +138,7 @@ async function ebenen_nach_oben_zusammenfassen(){
     });
     loop = "ebenen_nach_oben_zusammenfassen";
 }
+
 async function alle_ebenen_auswaehlen(){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(
@@ -347,6 +324,7 @@ async function autostart(){
 }
 
 autostart();
+
 async function rand_reset(){
     document.getElementById("FQ-rand-slider").value=10;
     red=255; grain=255; blue=255;
@@ -394,6 +372,7 @@ async function colorpick(){
     await speichern("hex_farbe", hex_farbe);
     document.getElementById("btn_colorpicker").innerHTML ='<div slot="icon" class="icon"><svg height="20" viewBox="0 0 20 20" width="20" slot="icon" focusable="false" aria-hidden="true" role="img"><rect x="0" y="0" width="20" height="20" style="fill:'+hex_farbe+';"/></svg></div>'+label_rahmenfarbe;
 }
+
 function componentToHex(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
@@ -402,6 +381,7 @@ function componentToHex(c) {
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }    
+
 async function fordergrundfarbe_setzen(r,g,b){
     const batchPlay = require("photoshop").action.batchPlay;
     const result = await batchPlay(

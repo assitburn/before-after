@@ -44,8 +44,8 @@ function sprache_auswählen(){
     }else{
         englisch();
     }
-    sprache();
 }
+
 sprache_auswählen();
 function deutsch(){
 
@@ -78,5 +78,6 @@ function englisch(){
     document.getElementById("label_vorher_nachher").innerHTML = "Before-After";
     document.getElementById("btn_vorher_nachher").innerHTML = "Before-After";
     document.getElementById("switch_kopie").innerHTML = label_rechts_oben;
-    document.getElementById("pixelgroesse").setAttribute("placeholder","longest side in pixel");
+    //document.getElementById("pixelgroesse").setAttribute("placeholder","longest side in pixel");
+    
 }

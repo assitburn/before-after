@@ -12,7 +12,7 @@ async function switch_resize_check(){
     }
 }
 
-document.getElementById("switch_resize").addEventListener("click",switch_resize_check);
+//document.getElementById("switch_resize").addEventListener("click",switch_resize_check);
 
 async function key_check(){
     
@@ -22,7 +22,7 @@ async function key_check(){
     document.getElementById("pixelgroesse").value = pixel;
 }
 
-document.getElementById("pixelgroesse").addEventListener("input",key_check);
+//document.getElementById("pixelgroesse").addEventListener("input",key_check);
 
 async function bildgroesseaendern(px){
     console.log("start");
@@ -30,6 +30,7 @@ async function bildgroesseaendern(px){
     const activeDoc = app.activeDocument; 
     
     if (activeDoc.height > activeDoc.width){
+        console.log("portrait");
         const batchPlay = require("photoshop").action.batchPlay;
         const result = await batchPlay(
         [
@@ -100,6 +101,7 @@ async function bildgroesseaendern(px){
             }}
         });
     }else{
+        console.log("landscape");
         const batchPlay = require("photoshop").action.batchPlay;
         const result = await batchPlay(
         [

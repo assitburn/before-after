@@ -25,7 +25,7 @@ async function vorher_nachher(){
             showToast(label_Querformat,10000);
         }
     }else{
-        showToast("zu wenig Ebenen vorhanden",20000);    
+        showToast(label_zu_wenig_layers,20000);    
     }
     
     //await bildgroesseaendern(250);

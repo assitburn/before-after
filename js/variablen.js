@@ -34,6 +34,7 @@ var label_Querformat ="Querformat";
 var label_portrait = "Portrait";
 var label_pixel = " Pixel";
 var label_bildgroesse = "Bildgröße ";
+var label_zu_wenig_layers = "zu wenig Ebenen vorhanden";
 
 
 function sprache_auswählen(){
@@ -69,6 +70,7 @@ function englisch(){
     label_32bitohneunterstützung = "no 32 bit Support";
     label_kein_doc_geladen = "no document loaded";
     label_nur_rgb_farbraum = "only RGB-Color is supported";
+    label_zu_wenig_layers = "not enough layers";
 
     document.getElementById("label_rand").innerHTML = "Border";
     document.getElementById("label_Randstaerke").innerHTML = "Border size in pixel";

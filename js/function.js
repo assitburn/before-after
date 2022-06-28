@@ -309,7 +309,7 @@ async function speichern(key,wert) {
 
 async function autostart(){
     const version_nummer = require("uxp").versions.plugin;
-    const copyright_text= "&copy; 2021 Carsten Gerdes Version "+version_nummer;
+    const copyright_text= "&copy; 2022 Carsten Gerdes Version "+version_nummer;
     document.getElementById("copyright").innerHTML = copyright_text;    
     
     document.getElementById("FQ-rand-slider").value = await laden("rand","15");

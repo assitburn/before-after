@@ -51,6 +51,7 @@ sprache_auswählen();
 function deutsch(){
 
 }
+
 function englisch(){
     label_rechts_oben = "original on left / bottom";
     label_links_unten = "original on right / top"

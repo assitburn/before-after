@@ -1,3 +1,5 @@
+const app = require('photoshop').app;
+
 async function vorher_nachher(){
    while(loop!="slider"){
       rand = document.getElementById("FQ-rand-slider").value;
@@ -17,11 +19,12 @@ async function vorher_nachher(){
         original_document = await document_id();
         if (activeDoc.height > activeDoc.width){
             document_hoehe = activeDoc.height;
-            await vorher_nachher_portrait();
+            await require("photoshop").core.executeAsModal(vorher_nachher_portrait);
             showToast(label_portrait,10000);
          }else{
             document_breite= activeDoc.width;
-            await vorher_nachher_quer();
+            
+            await require("photoshop").core.executeAsModal(vorher_nachher_quer);
             showToast(label_Querformat,10000);
         }
     }else{
@@ -35,143 +38,161 @@ async function vorher_nachher(){
    }
 }
 
-async function vorher_nachher_quer(){
+async function vorher_nachher_quer(executionContext){
+   let hostControl = executionContext.hostControl;
+    let suspensionID = await hostControl.suspendHistory({
+       documentID: app.activeDocument?.id,
+       name: label_layerneu,
+    });
    while (loop != "fordergrundfarbe_setzen"){
-      await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
+      await fordergrundfarbe_setzen(red,grain,blue);
    }
    while(loop != "document_id"){
       original_document = await document_id(); 
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(alle_ebenen_auswaehlen);
+   await ebenenauswahlaufheben();
+   await alle_ebenen_auswaehlen();
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   ebenenauswahlaufheben();
+   select_layer_by_index(0);
    let count = await layeranzahl();
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(count);});
+   await select_layer_by_index(count);
    
    while (loop !="in_neue_datei_kopieren"){
-      await require("photoshop").core.executeAsModal(in_neue_datei_kopieren);
+      await in_neue_datei_kopieren();
    }
    neues_document = await document_id();
-   await require("photoshop").core.executeAsModal(background_check);
+   await background_check();
    if (hintergrund_vorhanden == "ja"){
       while(loop !="hintergrund_entfernen"){
-         await require("photoshop").core.executeAsModal(hintergrund_entfernen);
+         await hintergrund_entfernen();
       }
    }
 
    while (loop!="bildrahmen_unten"){
-      await require("photoshop").core.executeAsModal(bildrahmen_unten);
+      await bildrahmen_unten();
    }
    
    while (loop!="arbeitsflaeche_erweitern_oben"){
-      await require("photoshop").core.executeAsModal(arbeitsflaeche_erweitern_oben);
+      await arbeitsflaeche_erweitern_oben();
    }
    
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await ebenenauswahlaufheben();
    if(document.getElementById("switch_kopie").checked){
-      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(1);});
+      await select_layer_by_index(1);
    }else{
-      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+      await select_layer_by_index(0);
    }
    
    while (loop!="nach_oben_schieben"){
-      await require("photoshop").core.executeAsModal(nach_oben_schieben);
+      await nach_oben_schieben();
    }
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   await select_layer_by_index(0);
    while (loop!="zusammenfuehren_quer"){
-      await require("photoshop").core.executeAsModal(zusammenfuehren_quer);
+      await zusammenfuehren_quer();
    }
    await menuCommand(1192);
    while(loop !="renamelayer"){
-      await require("photoshop").core.executeAsModal(function(){renamelayer(label_layerneu);});
+      await renamelayer(label_layerneu);
    }
    
    while (loop != "dokument_aktivieren"){
-      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(original_document);});
+      await dokument_aktivieren(original_document);
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
    while(loop!="ebene_loeschen_name"){
-      await require("photoshop").core.executeAsModal(function(){ebene_loeschen_name(label_zusammengefasst);});
+      await ebene_loeschen_name(label_zusammengefasst);
    }
    while (loop != "dokument_aktivieren"){
-      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
+      await dokument_aktivieren(neues_document);
    }
    //look ="vorher_nachher_quer";
-   return;
+   //return;
+   await renamelayer(label_layerneu);
+   await menuCommand(1969);
+
+   await hostControl.resumeHistory(suspensionID);
 }
 
-async function vorher_nachher_portrait(){
+async function vorher_nachher_portrait(executionContext){
+   let hostControl = executionContext.hostControl;
+    let suspensionID = await hostControl.suspendHistory({
+       documentID: app.activeDocument?.id,
+       name: label_layerneu,
+    });
    while (loop != "fordergrundfarbe_setzen"){
-      await require("photoshop").core.executeAsModal(function(){fordergrundfarbe_setzen(red,grain,blue);});
+      await fordergrundfarbe_setzen(red,grain,blue);
    }
    original_document = await document_id(); 
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(alle_ebenen_auswaehlen);
+   await ebenenauswahlaufheben();
+   await alle_ebenen_auswaehlen();
    while (loop!="check_ebenen_nach_oben_zusammenfassen"){
       await check_ebenen_nach_oben_zusammenfassen();
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
    let count = await layeranzahl();
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(count);});
+   await select_layer_by_index(count);
    
    while (loop !="in_neue_datei_kopieren"){
-      await require("photoshop").core.executeAsModal(in_neue_datei_kopieren);
+      await in_neue_datei_kopieren();
    }
 
-   await require("photoshop").core.executeAsModal(background_check);
+   await background_check();
    if (hintergrund_vorhanden == "ja"){
       while(loop !="hintergrund_entfernen"){
-         await require("photoshop").core.executeAsModal(hintergrund_entfernen);
+         await hintergrund_entfernen();
       }
    }
    while (loop != "bildrahmen_links"){
-      await require("photoshop").core.executeAsModal(bildrahmen_links);
+      await bildrahmen_links();
    }
    while (loop !="arbeitsflaeche_erweitern"){
-      await require("photoshop").core.executeAsModal(arbeitsflaeche_erweitern);
+      await arbeitsflaeche_erweitern();
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
+   await ebenenauswahlaufheben();
    if(document.getElementById("switch_kopie").checked){
-      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(1);});
+      await select_layer_by_index(1);
    }else{
-      await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+      await select_layer_by_index(0);
    }
    while (loop != "nach_rechts_schieben"){
-      await require("photoshop").core.executeAsModal(nach_rechts_schieben);
+      await nach_rechts_schieben();
    }
    await menuCommand(1192);
    neues_document = await document_id();
    while (loop != "hintergrund_portrait"){
-      await require("photoshop").core.executeAsModal(hintergrund_portrait);
+      await hintergrund_portrait();
    }
 
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
    
    while(loop !="renamelayer"){
-      await require("photoshop").core.executeAsModal(function(){renamelayer(label_layerneu);});
+      await renamelayer(label_layerneu);
    }
    
    while (loop != "dokument_aktivieren"){
-      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(original_document);});
+      await dokument_aktivieren(original_document);
    }
-   await require("photoshop").core.executeAsModal(ebenenauswahlaufheben);
-   await require("photoshop").core.executeAsModal(function(){select_layer_by_index(0);});
+   await ebenenauswahlaufheben();
+   await select_layer_by_index(0);
    while(loop!="ebene_loeschen_name"){
-      await require("photoshop").core.executeAsModal(function(){ebene_loeschen_name(label_zusammengefasst);});
+      await ebene_loeschen_name(label_zusammengefasst);
    }
 
    while (loop !="dokument_aktivieren"){
-      await require("photoshop").core.executeAsModal(function(){dokument_aktivieren(neues_document);});
+      await dokument_aktivieren(neues_document);
    }
    //look ="vorher_nachher_portrait";
-   return;
+   //return;
+   await renamelayer(label_layerneu);
+   await menuCommand(1969);
+
+   await hostControl.resumeHistory(suspensionID);
 }
 
 
@@ -305,7 +326,14 @@ async function renamelayer(name){
          }
       }
    ],{
-      "synchronousExecution": false
+      "synchronousExecution": false,
+      "historyStateInfo": {
+         "name": label_layerneu,
+         "target": {
+         "_ref":"document",
+         "_enum": "ordinal",
+         "_value": "targetEnum"
+         }}
    });
    loop = "renamelayer";
 }

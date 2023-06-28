@@ -5,12 +5,12 @@
     "default": "Before-After",
     "de": "Vorher-Nachher"
   },  
-  "version": "1.2.17",
+  "version": "1.2.20",
   "main": "index.html",
   "host": [
     {
       "app": "PS",
-      "minVersion": "23.3.0",
+      "minVersion": "24.1.0",
         "data": {
           "apiVersion": 2
         }

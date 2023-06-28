@@ -2,9 +2,9 @@ async function switch_resize_check(){
     let checked = document.getElementById("switch_resize").checked;
 
     if (checked){
-        console.log("switch resize ja "+ checked);
         pixelchange=true;
         document.getElementById("pixelgroesse").disabled = false;
+        console.log("switch resize ja "+ checked);
     }else{
         document.getElementById("pixelgroesse").disabled = true;
         pixelchange=false;

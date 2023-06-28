@@ -4,7 +4,10 @@ This plugin create a new document where the before and after layer will be place
 
 ![alt Plugin screenshot](Readme-img/before-after.png)
 
-![alt Plugin screenshot](Readme-img/screenshot.png)
+<div style="width:60px ; height:60px">
+  ![alt Plugin screenshot](Readme-img/screenshot.png)
+<div>
+
 
 
 
